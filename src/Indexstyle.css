@@ -1,0 +1,75 @@
+.Txt {
+  text-align: center;
+}
+#View {
+  position: absolute;
+  left: 30%;
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+#View.View {
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
+}
+#View.View:hover {
+  position: absolute;
+  left: 30%;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+}
+#Modify {
+  position: absolute;
+  right: 30%;
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+#Modify.Modify {
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
+}
+#Modify.Modify:hover {
+  position: absolute;
+  right: 30%;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+}
+.center {
+  margin: auto;
+  width: 100%;
+  padding: 10px;
+}
+
+.vertical-center {
+  text-align: center;
+  width: 100%;
+  //background-color: red;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

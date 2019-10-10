@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <link rel="stylesheet" type="text/css" href="Indexstyle.css" />
+    <meta charset="UTF-8" />
+    <title>Reasearch database editor</title>
   </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
+  <body style="overflow: hidden">
+    <script type="text/javascript" src="Gui.js"></script>
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
+    <h1 class="Txt">Select view or modify database</h1>
+    <div class="vertical-center">
+      <div class="center">
+        <button id="View" class="View">View data</button>
+        <button id="Modify" class="Modify">Modify data</button>
+      </div>
+    </div>
   </body>
 </html>

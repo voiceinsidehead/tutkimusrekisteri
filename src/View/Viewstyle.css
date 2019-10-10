@@ -1,0 +1,76 @@
+.DaPa {
+  position: relative;
+  align-items: stretch;
+  padding-top: 0px;
+  line-height: 15px;
+  height: 100%;
+  width: 100%;
+  text-indent: 10px;
+  background-color: powderblue;
+  text-align: left;
+}
+.Child1 {
+  position: relative;
+  float: left;
+  text-align: center;
+  width: 20%;
+  height: 100%;
+  background: #999;
+  display: inline-block;
+}
+.Child2 {
+  position: relative;
+  text-align: center;
+  width: 20%;
+  height: 100%;
+  background: #999;
+  display: inline-block;
+}
+
+.txt {
+  padding-top: 0px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+#mydiv {
+  position: absolute;
+  z-index: 9;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+}
+
+#mydivheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196f3;
+  color: #fff;
+}
+
+#Back {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+#Back.Back {
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
+}
+#Back.Back:hover {
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+}
