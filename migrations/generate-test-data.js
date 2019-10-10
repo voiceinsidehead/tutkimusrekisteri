@@ -167,4 +167,7 @@ function randomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-console.log(createIdentification());
+//forloop determines how many id:s are generated
+for (let index = 0; index < 1000; index++) {
+  console.log(createIdentification());
+}

@@ -53,3 +53,42 @@ app.on("activate", () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+require("dotenv").config();
+
+const csv = require("csv-parser");
+const fs = require("fs");
+const results = [];
+
+fs.createReadStream("./data/testidata_1.csv")
+  .pipe(csv())
+  .on("data", data => results.push(data))
+  .on("end", () => {
+    results.forEach(element => {
+      console.log(element);
+
+      // henkilo = new Henkilo(element.HETU)
+      // tutkimusHenkilo = new TutkimusHenkilo(tutkimus.Id, henkilo.Hetu, element.HASH)
+    });
+  });
+
+//testing database connection
+var Sequelize = require("sequelize");
+var sequelize = new Sequelize(
+  "postgresql://" +
+    process.env.DB_USER +
+    ":" +
+    process.env.DB_PASSWD +
+    "@" +
+    process.env.DB_HOST +
+    "/" +
+    process.env.DB_NAME
+);
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch(err => {
+    console.error("Unable to connect to the database:", err);
+  });
