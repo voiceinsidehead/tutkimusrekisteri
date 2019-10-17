@@ -7,7 +7,6 @@
   height: 100%;
   width: 100%;
   text-indent: 10px;
-  background-color: powderblue;
   text-align: left;
 }
 
@@ -16,13 +15,12 @@
 }
 
 .tableSelect {
-  float: left;
-  position: relative;
-  text-align: center;
+  margin: auto;
   width: 20%;
-  height: 100%;
-  background: #999;
-  display: inline-block;
+  border: 3px solid green;
+  padding: 10px;
+  text-align: center;
+  background: white;
 }
 
 #tab_Sel {
@@ -38,6 +36,8 @@
 
 #mydiv {
   position: absolute;
+  top: 160px;
+  left: 46.5%;
   z-index: 9;
   background-color: #f1f1f1;
   border: 1px solid #d3d3d3;
@@ -54,33 +54,32 @@
 
 #Back {
   float: left;
-  background-color: #4caf50; /* Green */
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
+}
+
+table {
+  /*display:block;*/
+  margin: auto;
+  width: 35%;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 35%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
 }
 
 /*Nappi vaatii borederin laiton*/
 .Submit {
-  float: left;
-  background-color: white; /* Green */
-  border: 2px solid #4caf50;
-  color: black;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
+  display: block;
+  margin: 10px auto;
+  border: 3px solid green;
+  padding: 10px;
+  background-color: white;
 }

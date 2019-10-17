@@ -11,33 +11,43 @@
     <div>
       <div class="DaPa">
         <div>
-          <button id="Back" class="Back">Back</button>
-        </div>
-
-        <div class="tableSelect">
-          <p id="otsikko">Table to view at:</p>
-          <select id="tab_Sel">
-            <option value="Default">Choose an option:</option>
-            <option value="ResearchId">Research id</option>
-            <option value="Person">Person</option>
-          </select>
-        </div>
-
-        <div>
-          <button id="Submit" class="Submit">Submit</button>
+          <button id="Back">Back</button>
         </div>
       </div>
 
-      <!-- Draggable DIV -->
-      <div id="mydiv">
-        <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
-        <div id="mydivheader">Click here to move</div>
-        <p>Move</p>
-        <p>this</p>
-        <p>DIV</p>
+      <div class="tableSelect">
+        <p id="otsikko">View table:</p>
+        <select id="tab_Sel">
+          <option value="Default">Choose an option:</option>
+          <option value="ResearchId">Research id</option>
+          <option value="Person">Person</option>
+        </select>
       </div>
 
-      <script type="text/javascript" src="Viewgui.js"></script>
+      <div>
+        <button id="Submit" class="Submit">Submit</button>
+      </div>
+
+      <table>
+        <tr>
+          <th>Company</th>
+          <th>Contact</th>
+          <th>Country</th>
+        </tr>
+
+        <tr>
+          <td>Will</td>
+          <td>Smith</td>
+          <td>America</td>
+        </tr>
+
+        <tr>
+          <td>Angelina</td>
+          <td>Jolie</td>
+          <td>America</td>
+        </tr>
+      </table>
     </div>
+    <script type="text/javascript" src="Viewgui.js"></script>
   </body>
 </html>
