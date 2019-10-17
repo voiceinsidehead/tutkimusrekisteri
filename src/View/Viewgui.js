@@ -1,11 +1,32 @@
-//window.onload = function () {
-//  document.getElementById("View").addEventListener("click", ViewPage)
-//document.getElementById("Modify").addEventListener("click", ModifyPage)
-//}
 window.onload = function() {
   dragElement(document.getElementById("mydiv"));
   document.getElementById("Back").addEventListener("click", BackPage);
+
+  Tab_Selected = document.getElementById("tab_Sel");
+  Tab_Selected.addEventListener("change", Buttongreen);
 };
+
+function Buttongreen() {
+  var selected = document.getElementById("tab_Sel").value;
+  var submit = document.getElementById("Submit");
+
+  switch (selected) {
+    case "Default":
+      submit.style.background = "white";
+      submit.style.color = "black";
+      break;
+
+    case "Person":
+      submit.style.background = "#4caf50";
+      submit.style.color = "white";
+      break;
+
+    case "ResearchId":
+      submit.style.background = "#4caf50";
+      submit.style.color = "white";
+      break;
+  }
+}
 
 function BackPage() {
   location.replace("../index.html");
