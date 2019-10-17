@@ -1,3 +1,5 @@
+const { ipcRenderer } = require("electron");
+
 document.getElementById("back").addEventListener("click", BackPage);
 
 let form = document.getElementById("formi");
@@ -10,13 +12,21 @@ function BackPage() {
   location.replace("../index.html");
 }
 
+//gets form data
 function submit(e) {
-  //gets data from form
   e.preventDefault();
-  console.log("toimii");
-  for (let i = 0; i < form.length; i++) {
-    console.log(form.elements[i].name, ":", form.elements[i].value);
-  }
+  //create object to store form data
+  let formData = {};
+
+  formData.identification = form.elements[0].value;
+  formData.name = form.elements[1].value;
+  formData.permission = form.elements[2].value;
+  formData.archiveId = form.elements[3].value;
+  formData.researchManager = form.elements[4].value;
+
+  console.log(formData);
+  //send data to main.js
+  ipcRenderer.send("formDataChannel", formData);
 }
 
 function addfile() {
@@ -27,8 +37,13 @@ function addfile() {
   explorer.then(function(value) {
     if (value.canceled == false) {
       let filepath = value.filePaths[0];
-      console.log(filepath);
       document.getElementById("filepath").innerHTML = filepath;
-    } else console.log("Canceled!");
+      console.log(filepath);
+
+      //send data to main.js
+      ipcRenderer.send("filePathChannel", filepath);
+    } else {
+      console.log("Canceled!");
+    }
   });
 }
