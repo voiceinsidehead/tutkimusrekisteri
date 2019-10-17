@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="Addstyle.css" />
+    <title>Reasearch database editor/Add</title>
+  </head>
+
+  <body>
+    <button id="back" class="back">Back</button>
+    <p>Please fill in the data you want to add to database:</p>
+
+    <!-- form for adding research data to database -->
+    <form id="formi">
+      Identification
+      <br />
+      <input
+        class="input"
+        type="text"
+        autocomplete="off"
+        placeholder="Identification..."
+        name="identification"
+      />
+      <br />
+      Name
+      <br />
+      <input
+        class="input"
+        type="text"
+        autocomplete="off"
+        placeholder="Name..."
+        name="name"
+      />
+      <br />
+      Permission
+      <br />
+      <input
+        class="input"
+        type="text"
+        autocomplete="off"
+        placeholder="Permission..."
+        name="permission"
+      />
+      <br />
+      Archive Id
+      <br />
+      <input
+        class="input"
+        type="text"
+        autocomplete="off"
+        placeholder="Archive Id..."
+        name="archiveId"
+      />
+      <br />
+      Research Manager
+      <br />
+      <input
+        class="input"
+        type="text"
+        autocomplete="off"
+        placeholder="Research Manager..."
+        name="researchManager"
+      />
+      <br />
+      <input type="submit" value="Send" />
+    </form>
+
+    <button id="addFileBtn">Add File</button>
+    <p id="filepath"></p>
+
+    <script src="Addgui.js"></script>
+  </body>
+</html>
