@@ -77,14 +77,11 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
-//get filepath from rendered method
+//get filepath and form data from rendered method
 const { ipcMain } = require("electron");
-ipcMain.on("formDataChannel", (event, arg) => {
-  console.log(arg);
-});
-ipcMain.on("filePathChannel", (event, arg) => {
-  console.log(arg);
-  readCsv(arg);
+ipcMain.on("dataChannel", (event, formdata, filepath) => {
+  console.log(formdata);
+  readCsv(filepath);
 });
 
 function readCsv(filepath) {
@@ -96,8 +93,9 @@ function readCsv(filepath) {
     .pipe(csv())
     .on("data", data => results.push(data))
     .on("end", () => {
+      console.log("csv on auki");
       results.forEach(element => {
-        console.log(element);
+        //console.log(element);
       });
     });
 }
