@@ -56,22 +56,6 @@ app.on("activate", () => {
 
 require("dotenv").config();
 
-const csv = require("csv-parser");
-const fs = require("fs");
-const results = [];
-
-fs.createReadStream("./data/testidata_1.csv")
-  .pipe(csv())
-  .on("data", data => results.push(data))
-  .on("end", () => {
-    results.forEach(element => {
-      console.log(element);
-
-      // henkilo = new Henkilo(element.HETU)
-      // tutkimusHenkilo = new TutkimusHenkilo(tutkimus.Id, henkilo.Hetu, element.HASH)
-    });
-  });
-
 //testing database connection
 var Sequelize = require("sequelize");
 var sequelize = new Sequelize(
@@ -93,11 +77,27 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
-//get data from rendered method
+//get filepath from rendered method
 const { ipcMain } = require("electron");
 ipcMain.on("formDataChannel", (event, arg) => {
   console.log(arg);
 });
 ipcMain.on("filePathChannel", (event, arg) => {
   console.log(arg);
+  readCsv(arg);
 });
+
+function readCsv(filepath) {
+  const csv = require("csv-parser");
+  const fs = require("fs");
+  const results = [];
+
+  fs.createReadStream(filepath)
+    .pipe(csv())
+    .on("data", data => results.push(data))
+    .on("end", () => {
+      results.forEach(element => {
+        console.log(element);
+      });
+    });
+}
