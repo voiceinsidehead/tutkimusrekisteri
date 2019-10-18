@@ -4,7 +4,7 @@ window.onload = function() {
 };
 
 function ModifyPage() {
-  location.replace("Modify/Modify.html");
+  location.replace("Add/Add.html");
 }
 
 function ViewPage() {

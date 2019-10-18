@@ -3,53 +3,51 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-
-    <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="Viewstyle.css" />
     <title>Reasearch database editor/View</title>
   </head>
 
   <body>
     <div>
-      <div>
-        <button id="Back" class="Back">Back</button>
-      </div>
       <div class="DaPa">
-        <div class="Child1">
-          <span>Data parameters:</span>
-          <select>
-            <option value="Choose a option:">Choose a option:</option>
-            <option value="ResearchId">Research id</option>
-            <option value="Research participan">Research participant</option>
-            <option value="PermissionId">Permission id</option>
-            <option value="ArchiveId">Archive Id</option>
-            <option value="Manager">Research manager</option>
-          </select>
-        </div>
-
-        <div class="Child2">
-          <span>Table to view at:</span>
-          <select>
-            <option value="Choose a option:">Choose a option:</option>
-            <option value="ResearchId">Research id</option>
-            <option value="Research participan">Research participant</option>
-            <option value="PermissionId">Permission id</option>
-            <option value="ArchiveId">Archive Id</option>
-            <option value="Manager">Research manager</option>
-          </select>
-
-          <!-- Draggable DIV -->
-          <div id="mydiv">
-            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
-            <div id="mydivheader">Click here to move</div>
-            <p>Move</p>
-            <p>this</p>
-            <p>DIV</p>
-          </div>
-
-          <script type="text/javascript" src="Gui.js"></script>
+        <div>
+          <button id="Back">Back</button>
         </div>
       </div>
+
+      <div class="tableSelect">
+        <p id="otsikko">View table:</p>
+        <select id="tab_Sel">
+          <option value="Default">Choose an option:</option>
+          <option value="ResearchId">Research id</option>
+          <option value="Person">Person</option>
+        </select>
+      </div>
+
+      <div>
+        <button id="Submit" class="Submit">Submit</button>
+      </div>
+
+      <table>
+        <tr>
+          <th>Company</th>
+          <th>Contact</th>
+          <th>Country</th>
+        </tr>
+
+        <tr>
+          <td>Will</td>
+          <td>Smith</td>
+          <td>America</td>
+        </tr>
+
+        <tr>
+          <td>Angelina</td>
+          <td>Jolie</td>
+          <td>America</td>
+        </tr>
+      </table>
     </div>
+    <script type="text/javascript" src="Viewgui.js"></script>
   </body>
 </html>

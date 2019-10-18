@@ -92,3 +92,12 @@ sequelize
   .catch(err => {
     console.error("Unable to connect to the database:", err);
   });
+
+//get data from rendered method
+const { ipcMain } = require("electron");
+ipcMain.on("formDataChannel", (event, arg) => {
+  console.log(arg);
+});
+ipcMain.on("filePathChannel", (event, arg) => {
+  console.log(arg);
+});
