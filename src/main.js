@@ -77,10 +77,6 @@ ipcMain.on("formDataChannel", async (event, obj, file) => {
     });
   });
 });
-ipcMain.on("filePathChannel", async (event, arg) => {
-  console.log(arg);
-  let csvData = await readCsv(arg);
-});
 
 async function readCsv(filepath) {
   const csv = require("csv-parser");

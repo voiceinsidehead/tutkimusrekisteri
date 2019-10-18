@@ -1,4 +1,4 @@
-const { ipcRenderer } = require("electron");
+const { ipcRenderer, remote } = require("electron");
 
 document.getElementById("back").addEventListener("click", BackPage);
 
@@ -18,30 +18,27 @@ function submit(e) {
   //create object to store form data
   let formData = {};
 
-  formData.identification = form.elements[0].value;
-  formData.name = form.elements[1].value;
-  formData.permission = form.elements[2].value;
-  formData.archiveId = form.elements[3].value;
-  formData.researchManager = form.elements[4].value;
+  formData.name = form.elements[0].value;
+  formData.permission = form.elements[1].value;
+  formData.archiveId = form.elements[2].value;
+  formData.researchManager = form.elements[3].value;
 
-  console.log(formData);
   //send data to main.js
-  ipcRenderer.send("formDataChannel", formData);
+  ipcRenderer.send("dataChannel", formData, sendFilePath);
 }
 
+let sendFilePath;
+
 function addfile() {
-  // opens native file explorer window
-  const { dialog } = require("electron").remote;
-  let explorer = dialog.showOpenDialog({ properties: ["openFile"] });
+  //opens native file explorer window
+  let explorer = remote.dialog.showOpenDialog({ properties: ["openFile"] });
   console.log(explorer);
   explorer.then(function(value) {
     if (value.canceled == false) {
       let filepath = value.filePaths[0];
       document.getElementById("filepath").innerHTML = filepath;
       console.log(filepath);
-
-      //send data to main.js
-      ipcRenderer.send("filePathChannel", filepath);
+      sendFilePath = filepath;
     } else {
       console.log("Canceled!");
     }
