@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
           key: "identificationNumber"
         }
       },
-      idetificationHash: DataTypes.STRING
+      identificationHash: DataTypes.STRING
     },
     {}
   );

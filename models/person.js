@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
   Person.associate = function(models) {
     Person.belongsToMany(models.Research, {
       through: models.ResearchPerson,
-      foreignKey: "identificationNumber"
+      foreignKey: "identificationNumber",
+      as: "People"
     });
   };
   return Person;

@@ -1,4 +1,14 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
+const path = require("path");
+const env = require("dotenv");
+
+env.config();
+
+// Database refernce
+const db = require(path.resolve(".", "models"));
+
+/// DROPS THE DATABASE ! FOR TESTING PURPOSES ONLY ! MUST BE REMOVED !
+db.sequelize.sync({ force: true });
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -54,50 +64,33 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-require("dotenv").config();
-
-//testing database connection
-var Sequelize = require("sequelize");
-var sequelize = new Sequelize(
-  "postgresql://" +
-    process.env.DB_USER +
-    ":" +
-    process.env.DB_PASSWD +
-    "@" +
-    process.env.DB_HOST +
-    "/" +
-    process.env.DB_NAME
-);
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch(err => {
-    console.error("Unable to connect to the database:", err);
-  });
-
 //get filepath from rendered method
-const { ipcMain } = require("electron");
-ipcMain.on("formDataChannel", (event, arg) => {
-  console.log(arg);
+ipcMain.on("formDataChannel", async (event, obj, file) => {
+  let ids = readCsv(file);
+  let rs = db.Research.create(obj);
+  Promise.all([rs, ids]).then(([research, data]) => {
+    data.forEach(async value => {
+      let person = await db.Person.create({ identificationNumber: value.HETU });
+      research.addPerson(person, {
+        through: { identificationHash: value.HASH }
+      });
+    });
+  });
 });
-ipcMain.on("filePathChannel", (event, arg) => {
+ipcMain.on("filePathChannel", async (event, arg) => {
   console.log(arg);
-  readCsv(arg);
+  let csvData = await readCsv(arg);
 });
 
-function readCsv(filepath) {
+async function readCsv(filepath) {
   const csv = require("csv-parser");
   const fs = require("fs");
   const results = [];
 
-  fs.createReadStream(filepath)
+  await fs
+    .createReadStream(filepath)
     .pipe(csv())
     .on("data", data => results.push(data))
-    .on("end", () => {
-      results.forEach(element => {
-        console.log(element);
-      });
-    });
+    .on("end", () => console.log("File readed"));
+  return results;
 }

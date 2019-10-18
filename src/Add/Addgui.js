@@ -30,7 +30,7 @@ function submit(e) {
 }
 
 function addfile() {
-  //opens native file explorer window
+  // opens native file explorer window
   const { dialog } = require("electron").remote;
   let explorer = dialog.showOpenDialog({ properties: ["openFile"] });
   console.log(explorer);
