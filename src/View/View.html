@@ -7,43 +7,82 @@
     <title>Reasearch database editor/View</title>
   </head>
 
-  <body>
+  <body style="overflow: hidden;">
     <div>
-      <div class="DaPa">
+      <div style="overflow: hidden;">
         <div>
-          <button id="Back">Back</button>
+          <button id="Back" style="float: left;">Back</button>
         </div>
       </div>
 
+      <!-- Selections for the viewable table -->
       <div class="tableSelect">
-        <p id="otsikko">View table:</p>
-        <select id="tab_Sel">
+        <p id="otsikko" style="margin: 2px">View table:</p>
+        <select id="tab_Sel" style="margin: 2px">
           <option value="Default">Choose an option:</option>
           <option value="ResearchId">Research id</option>
           <option value="Person">Person</option>
         </select>
       </div>
 
+      <!-- Submitbutton to pull up the table  -->
       <div>
         <button id="Submit" class="Submit">Submit</button>
       </div>
 
-      <table>
+      <!-- Table for demonstrating the consept of the viewable table -->
+      <table id="demoTable" style="visibility: hidden;">
         <tr>
-          <th>Company</th>
-          <th>Contact</th>
+          <th>FirstName</th>
+          <th>LastName</th>
           <th>Country</th>
         </tr>
 
         <tr>
-          <td>Will</td>
-          <td>Smith</td>
+          <td>Dave</td>
+          <td>Chapelle</td>
           <td>America</td>
         </tr>
 
         <tr>
-          <td>Angelina</td>
-          <td>Jolie</td>
+          <td>Chris</td>
+          <td>D'Elia</td>
+          <td>America</td>
+        </tr>
+
+        <tr>
+          <td>Bill</td>
+          <td>Murray</td>
+          <td>America</td>
+        </tr>
+
+        <tr>
+          <td>Patrice</td>
+          <td>O'neal</td>
+          <td>America</td>
+        </tr>
+
+        <tr>
+          <td>Bill</td>
+          <td>Burr</td>
+          <td>America</td>
+        </tr>
+
+        <tr>
+          <td>Larry</td>
+          <td>David</td>
+          <td>America</td>
+        </tr>
+
+        <tr>
+          <td>Joe</td>
+          <td>Rogan</td>
+          <td>America</td>
+        </tr>
+
+        <tr>
+          <td>Joey</td>
+          <td>Diaz</td>
           <td>America</td>
         </tr>
       </table>
