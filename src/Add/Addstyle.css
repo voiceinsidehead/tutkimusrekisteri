@@ -1,7 +1,17 @@
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .input {
   margin-bottom: 1em;
   padding-right: 20em;
 }
 #filepath {
   color: red;
+}
+.submit-div {
+  display: flex;
+  justify-content: center;
+  margin: 10%;
 }
