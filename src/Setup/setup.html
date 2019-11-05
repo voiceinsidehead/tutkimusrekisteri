@@ -4,25 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="setupStyle.css" />
     <title>Database Connection Setup</title>
   </head>
   <body>
     <button id="back">Back</button>
-    <form id="formi">
-      Database Name
-      <input type="text" />
-      <br />
-      Address
-      <input type="text" />
-      <br />
-      User
-      <input type="text" />
-      <br />
-      Password
-      <input type="password" />
-      <br />
-      <input type="submit" />
-    </form>
+
+    <div class="flex-container">
+      <form id="formi">
+        <p>Database name</p>
+        <input class="input" type="text" />
+        <p>IP-Address</p>
+        <input class="input" type="text" />
+        <p>User</p>
+        <input class="input" type="text" />
+        <p>Password</p>
+        <input class="input" type="password" />
+        <div class="submit-div"><input type="submit" /></div>
+      </form>
+    </div>
   </body>
   <script src="setup.js"></script>
 </html>
