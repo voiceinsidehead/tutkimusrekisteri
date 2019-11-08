@@ -14,6 +14,8 @@ db.sequelize.sync({ force: true });
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
+let researches = db.Research.findAll();
+
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
@@ -21,7 +23,8 @@ function createWindow() {
     height: 600,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    preload: "./preload.js"
   });
 
   // and load the index.html of the app.
@@ -69,6 +72,7 @@ ipcMain.on("dataChannel", async (event, obj, file) => {
   let ids = readCsv(file);
   let rs = db.Research.create(obj);
   Promise.all([rs, ids]).then(([research, data]) => {
+    console.log(`RESEARCH ID: ${research.researchID}`);
     data.forEach(async value => {
       let [person, _] = await db.Person.findOrCreate({
         where: { identificationNumber: value.HETU }
