@@ -23,38 +23,128 @@ function Buttongreen(event) {
       submit.style.background = "white";
       submit.style.color = "black";
       document.getElementById("demoTable").style.visibility = "hidden";
+      inputbox("delete");
       break;
 
     //Changes color of the button to green to symbolize that selections are aproved.
     case selected == "Person" && event.type == "change":
       submit.style.background = "#4caf50";
       submit.style.color = "white";
+      inputbox("add");
       break;
 
     //Case when selection is specified and specific button (Id == Submit) is pressed.
     case selected == "Person" && event.type == "click":
       document.getElementById("demoTable").style.visibility = "visible";
-      //Function for pulling up a table here.
+      //add fuction for creating new input box
+      tableData();
       break;
 
     //Changes color of the button to green to symbolize that selections are aproved.
     case selected == "ResearchId" && event.type == "change":
       submit.style.background = "#4caf50";
       submit.style.color = "white";
+      inputbox("delete");
       break;
 
     //Case when selection is specified and specific button (Id == Submit) is pressed.
     case selected == "ResearchId" && event.type == "click":
       document.getElementById("demoTable").style.visibility = "visible";
-      //Function for pulling up a table here.
+      tableData();
       break;
+  }
+}
+
+function inputbox(param) {
+  var list = document
+    .getElementsByClassName("tableSelect")[0]
+    .getElementsByTagName("input").length;
+
+  if (param == "add") {
+    var input = document.createElement("input");
+    input.type = "text";
+    input.setAttribute("id", "text");
+    input.setAttribute("type", "text");
+    input.setAttribute("name", "username");
+    input.setAttribute("placeholder", "Hlö");
+    document.getElementsByClassName("tableSelect")[0].appendChild(input);
+  }
+
+  if (param == "delete" && list > 0) {
+    var elem = document.getElementById("text");
+    document.getElementsByClassName("tableSelect")[0].removeChild(elem);
+  }
+}
+
+var Person0 = {
+  fisrtName: "Dave",
+  lastName: "Chapelle",
+  country: "America"
+};
+var Person1 = {
+  fisrtName: "Chris",
+  lastName: "D'elia",
+  country: "America"
+};
+var Person2 = {
+  fisrtName: "Bill",
+  lastName: "Murray",
+  country: "America"
+};
+var Person3 = {
+  fisrtName: "Patrice",
+  lastName: "O'neal",
+  country: "America"
+};
+var Person4 = {
+  fisrtName: "Bill",
+  lastName: "Burr",
+  country: "America"
+};
+var Person5 = {
+  fisrtName: "Larry",
+  lastName: "David",
+  country: "America"
+};
+var Person6 = {
+  fisrtName: "Joe",
+  lastName: "Rogan",
+  country: "America"
+};
+var Person7 = {
+  fisrtName: "Joey",
+  lastName: "Diaz",
+  country: "America"
+};
+
+var persons = [Person1, Person2, Person3, Person4, Person5, Person6, Person7];
+
+function tableData() {
+  var table = document.getElementById("demoTable");
+
+  //Wipe the previous table.
+  /*
+  for(var i = table.rows.length - 1; i > 0; i--)
+  {
+    table.deleteRow(i);
+  }
+  */
+
+  //Create the new table.
+  for (var i = 0; i < persons.length; i++) {
+    var row = table.insertRow(i + 1);
+    var fisrtName = row.insertCell(0);
+    var lastName = row.insertCell(1);
+    var country = row.insertCell(2);
+    fisrtName.innerHTML = persons[i]["fisrtName"];
+    lastName.innerHTML = persons[i]["lastName"];
+    country.innerHTML = persons[i]["country"];
   }
 }
 
 var direction = 0;
 var scaleValue = 1;
 var map = {};
-
 function tableControl(e) {
   e = e || event; // to deal with IE
   map[e.keyCode] = e.type == "keydown";
@@ -109,6 +199,7 @@ function tableControl(e) {
       document.getElementById("demoTable").style.top = topValue + "%";
       break;
 
+    //Make table move up.
     case map[17] && map[40]:
       topValue = (demoTable.offsetTop / windowHeight) * 100 + 0.5;
       document.getElementById("demoTable").style.top = topValue + "%";
