@@ -12,52 +12,48 @@
     <p>Please fill in the data you want to add to database:</p>
 
     <button id="addFileBtn">Add File</button>
-    <p id="filepath"></p>
+    <div class="flex-container">
+      <p id="filepath"></p>
 
-    <!-- form for adding research data to database -->
-    <form id="formi">
-      Name
-      <br />
-      <input
-        class="input"
-        type="text"
-        autocomplete="off"
-        placeholder="Name..."
-        name="name"
-      />
-      <br />
-      Permission
-      <br />
-      <input
-        class="input"
-        type="text"
-        autocomplete="off"
-        placeholder="Permission..."
-        name="permission"
-      />
-      <br />
-      Archive Id
-      <br />
-      <input
-        class="input"
-        type="text"
-        autocomplete="off"
-        placeholder="Archive Id..."
-        name="archiveId"
-      />
-      <br />
-      Research Manager
-      <br />
-      <input
-        class="input"
-        type="text"
-        autocomplete="off"
-        placeholder="Research Manager..."
-        name="researchManager"
-      />
-      <br />
-      <input type="submit" value="Send" />
-    </form>
+      <!-- form for adding research data to database -->
+      <form id="formi">
+        <p>Name</p>
+        <input
+          class="input"
+          type="text"
+          autocomplete="off"
+          placeholder="Name..."
+          name="name"
+        />
+        <p>Permission</p>
+        <input
+          class="input"
+          type="text"
+          autocomplete="off"
+          placeholder="Permission..."
+          name="permission"
+        />
+        <p>Archive Id</p>
+        <input
+          class="input"
+          type="text"
+          autocomplete="off"
+          placeholder="Archive Id..."
+          name="archiveId"
+        />
+        <p>Reasearch Manager</p>
+        <input
+          class="input"
+          type="text"
+          autocomplete="off"
+          placeholder="Research Manager..."
+          name="researchManager"
+        />
+        <div class="submit-div">
+          <input type="submit" value="Send" />
+        </div>
+      </form>
+    </div>
 
     <script src="Addgui.js"></script>
   </body>

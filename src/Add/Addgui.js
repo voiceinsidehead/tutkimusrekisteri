@@ -20,7 +20,7 @@ function submit(e) {
 
   formData.name = form.elements[0].value;
   formData.permission = form.elements[1].value;
-  formData.archiveId = form.elements[2].value;
+  formData.archiveID = form.elements[2].value;
   formData.researchManager = form.elements[3].value;
 
   //send data to main.js

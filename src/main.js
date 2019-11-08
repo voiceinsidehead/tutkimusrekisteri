@@ -7,7 +7,7 @@ env.config();
 // Database refernce
 const db = require(path.resolve(".", "models"));
 
-/// DROPS THE DATABASE ! FOR TESTING PURPOSES ONLY ! MUST BE REMOVED !
+///FORCING DROPS THE DATABASE ! FOR TESTING PURPOSES ONLY ! MUST BE REMOVED !
 db.sequelize.sync({ force: true });
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -64,18 +64,36 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-//get filepath from rendered method
-ipcMain.on("formDataChannel", async (event, obj, file) => {
+// get filepath from rendered method
+ipcMain.on("dataChannel", async (event, obj, file) => {
   let ids = readCsv(file);
   let rs = db.Research.create(obj);
   Promise.all([rs, ids]).then(([research, data]) => {
     data.forEach(async value => {
-      let person = await db.Person.create({ identificationNumber: value.HETU });
+      let [person, _] = await db.Person.findOrCreate({
+        where: { identificationNumber: value.HETU }
+      });
       research.addPerson(person, {
         through: { identificationHash: value.HASH }
       });
     });
   });
+});
+
+// Finds all the researches where ID belongs.
+ipcMain.on("idNumber", async (e, id) => {
+  let person = await db.Person.findByPk(id);
+  let researches = await person.getResearches();
+  ipcMain.send("researches", researches);
+});
+
+// Finds all people belonging to research
+ipcMain.on("research", async (e, id) => {
+  let research = await db.Research.findByPk(id);
+  let people = await research.getPeople({
+    joinTableAttributes: ["identificationHash"]
+  });
+  ipcMain.send("researchPeople", people);
 });
 
 async function readCsv(filepath) {
