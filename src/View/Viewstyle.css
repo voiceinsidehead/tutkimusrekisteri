@@ -1,19 +1,4 @@
-.DaPa {
-  overflow: hidden;
-  position: relative;
-  align-items: center;
-  padding-top: 0px;
-  line-height: 15px;
-  height: 100%;
-  width: 100%;
-  text-indent: 10px;
-  text-align: left;
-}
-
-#otsikko {
-  margin: 2px;
-}
-
+/*Style of the div that contains selection, from where is decided wich table to show*/
 .tableSelect {
   margin: auto;
   width: 20%;
@@ -23,48 +8,20 @@
   background: white;
 }
 
-#tab_Sel {
-  margin: 2px;
-}
-
-.txt {
-  padding-top: 0px;
-  position: relative;
-  top: 0px;
-  left: 0px;
-}
-
-#mydiv {
+/*Table that appears after selecting wich table to show and pressing submit*/
+#demoTable {
   position: absolute;
-  top: 160px;
-  left: 46.5%;
-  z-index: 9;
-  background-color: #f1f1f1;
-  border: 1px solid #d3d3d3;
-  text-align: center;
-}
-
-#mydivheader {
-  padding: 10px;
-  cursor: move;
-  z-index: 10;
-  background-color: #2196f3;
-  color: #fff;
-}
-
-#Back {
-  float: left;
-}
-
-table {
-  /*display:block;*/
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  /*top: 22%;*/
+  left: 32.5%;
   width: 35%;
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 35%;
+  transform: scale(1);
 }
 
+/*#demoTable row styles */
 td,
 th {
   border: 1px solid #dddddd;
@@ -75,7 +32,7 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
-/*Nappi vaatii borederin laiton*/
+/*Submit button style*/
 .Submit {
   display: block;
   margin: 10px auto;
