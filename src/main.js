@@ -82,8 +82,10 @@ ipcMain.on("dataChannel", async (event, obj, file) => {
 
 // Finds all the researches where ID belongs.
 ipcMain.on("idNumber", async (e, id) => {
+  console.log(`ID:: ${id}`);
   let person = await db.Person.findByPk(id);
-  let researches = await person.getResearches();
+  console.log(`PERSON:: ${person}`);
+  let researches = await person[0].getResearches();
   ipcMain.send("researches", researches);
 });
 

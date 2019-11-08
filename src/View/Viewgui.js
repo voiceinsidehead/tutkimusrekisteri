@@ -11,6 +11,8 @@ window.onload = function() {
   window.addEventListener("wheel", tableControl);
 };
 
+var ipcRenderer = require("electron").ipcRenderer;
+
 dragElement(document.getElementById("demoTable"));
 //Function for deciding wich table to show and button (Id == Submit) color.
 function Buttongreen(event) {
@@ -208,6 +210,19 @@ function tableControl(e) {
     default:
       break;
   }
+}
+
+ipcRenderer.send("idNumber", "021283A410L");
+ipcRenderer.on("researches", function(event, arg) {
+  console.log(arg);
+  console.log("zadaa");
+
+  //do child process or other data manipulation and name it manData
+  //event.sender.send(‘manipulatedData’, manData);
+});
+
+function write(arvo) {
+  console.log(arvo);
 }
 
 function Showtable(skia) {
