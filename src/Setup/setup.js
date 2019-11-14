@@ -1,3 +1,5 @@
+const { ipcRenderer } = require("electron");
+
 document.getElementById("back").addEventListener("click", back);
 form = document.getElementById("formi");
 form.addEventListener("submit", submit);

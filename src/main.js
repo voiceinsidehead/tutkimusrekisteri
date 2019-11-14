@@ -67,6 +67,15 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+//get database connection setup data
+ipcMain.on("dbSetupChannel", async (event, data) => {
+  let dbName = data.dbName;
+  let dbAddress = data.dbAddress;
+  let dbUser = data.dbUser;
+  let dbPassword = data.dbPassword;
+  console.log(dbName, dbAddress, dbUser, dbPassword);
+});
+
 // get filepath from rendered method
 ipcMain.on("dataChannel", async (event, obj, file) => {
   let ids = readCsv(file);
