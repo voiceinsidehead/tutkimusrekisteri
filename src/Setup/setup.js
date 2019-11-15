@@ -30,7 +30,6 @@ function submit(e) {
     if (elem.nodeName === "INPUT" && elem.type !== "submit")
       data[elem.name] = elem.value;
   }
-  console.log(data);
   // send data to main.js
   ipcRenderer.send("dbSetupChannel", data);
 }

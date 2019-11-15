@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
+const { writeFile } = require("fs").promises;
 const env = require("dotenv");
 
 env.config();
@@ -14,8 +15,6 @@ db.connect().then(() => db.sequelize.sync({ force: true }));
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-
-//let researches = db.Research.findAll();
 
 function createWindow() {
   // Create the browser window.
@@ -68,12 +67,12 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-//get database connection setup data
+// Connect database with new setup.
 ipcMain.on("dbSetupChannel", async (event, data) => {
   await db.connect(data).then(() => db.sequelize.sync());
 });
 
-// get filepath from rendered method
+// Get filepath from rendered method
 ipcMain.on("dataChannel", async (event, obj, file) => {
   let ids = readCsv(file);
   let rs = db.Research.create(obj);
@@ -100,10 +99,15 @@ ipcMain.on("idNumber", async (e, id) => {
       }
     ]
   });
-  const data = researches.map((rs) => {
-    return {  name : rs.name, permission : rs.permission, archiveID : rs.archiveID, researchManager : rs.researchManager}
-  })
-  // createMarkdown(id, researches)
+  const data = researches.map(rs => {
+    return {
+      name: rs.name,
+      permission: rs.permission,
+      archiveID: rs.archiveID,
+      researchManager: rs.researchManager
+    };
+  });
+  createMarkdown(id, researches);
   e.reply("researches", data);
 });
 
@@ -119,6 +123,24 @@ ipcMain.on("research", async (e, id) => {
 ipcMain.on("getDBSetup", e => {
   e.reply("dbSetup", db.connection);
 });
+
+async function createMarkdown(id, data) {
+  const str = `## RESEARCHS for ID: ${id}
+  ${researchesToString(data)}`;
+  await writeFile("./tmp.md", str);
+}
+
+function researchesToString(data) {
+  return data
+    .map((rs, i) => {
+      `### ${i}. ${rs.name}
+    - ${rs.permission}
+    - ${rs.archiveID}
+    - ${rs.researchManager}
+    `;
+    })
+    .join("\n");
+}
 
 async function readCsv(filepath) {
   const csv = require("csv-parser");
