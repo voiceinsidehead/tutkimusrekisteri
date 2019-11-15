@@ -1,3 +1,5 @@
+const { dialog } = require("electron").remote;
+
 window.onload = function() {
   dragElement(document.getElementById("demoTable"));
   document.getElementById("Back").addEventListener("click", BackPage);
@@ -244,4 +246,14 @@ function dragElement(elmnt) {
     document.onmouseup = null;
     document.onmousemove = null;
   }
+}
+
+async function saveFile() {
+  let options = {
+    title: "Save file",
+    defaultPath: ".pdf",
+    buttonLabel: "Save As PDF",
+    filters: [{ name: "PDF", extensions: ["pdf"] }]
+  };
+  let dialogObject = await dialog.showSaveDialog(options);
 }

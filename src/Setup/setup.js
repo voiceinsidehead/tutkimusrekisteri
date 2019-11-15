@@ -1,6 +1,19 @@
+const { ipcRenderer } = require("electron");
+
 document.getElementById("back").addEventListener("click", back);
 form = document.getElementById("formi");
 form.addEventListener("submit", submit);
+
+let setup;
+
+ipcRenderer.send("getDBSetup");
+
+ipcRenderer.on("dbSetup", (_, data) => {
+  setup = data;
+  Object.keys(setup).forEach(key => {
+    if (form.elements[key]) form.elements[key].value = setup[key];
+  });
+});
 
 function back() {
   location.replace("../index.html");
@@ -10,14 +23,14 @@ function back() {
 function submit(e) {
   e.preventDefault();
   //create object to store form data
-  let dbData = {};
+  let data = {};
 
-  dbData.dbName = form.elements[0].value;
-  dbData.dbAddress = form.elements[1].value;
-  dbData.dbUser = form.elements[2].value;
-  dbData.dbPassword = form.elements[3].value;
-  console.log(dbData);
-
-  //send data to main.js
-  ipcRenderer.send("dbSetupChannel", dbData);
+  for (let i = 0; i < form.elements.length; i++) {
+    let elem = form.elements[i];
+    if (elem.nodeName === "INPUT" && elem.type !== "submit")
+      data[elem.name] = elem.value;
+  }
+  console.log(data);
+  // send data to main.js
+  ipcRenderer.send("dbSetupChannel", data);
 }
