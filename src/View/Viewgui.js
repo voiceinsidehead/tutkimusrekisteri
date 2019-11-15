@@ -41,7 +41,10 @@ function Buttongreen(event) {
       document.getElementById("demoTable").style.visibility = "visible";
       //add fuction for creating new input box
       tableData();
+      personQuery();
       break;
+    //do child process or other data manipulation and name it manData
+    //event.sender.send(‘manipulatedData’, manData);
 
     //Changes color of the button to green to symbolize that selections are aproved.
     case selected == "ResearchId" && event.type == "change":
@@ -56,6 +59,16 @@ function Buttongreen(event) {
       tableData();
       break;
   }
+}
+
+function personQuery() {
+  ipcRenderer.send("idNumber", "021283A410L");
+  ipcRenderer.on("researches", function(event, arg) {
+    /*arg.forEach((obj) => {
+    console.log(obj);
+  })*/
+    console.log(arg);
+  });
 }
 
 function inputbox(param) {
@@ -79,49 +92,6 @@ function inputbox(param) {
   }
 }
 
-var Person0 = {
-  fisrtName: "Dave",
-  lastName: "Chapelle",
-  country: "America"
-};
-var Person1 = {
-  fisrtName: "Chris",
-  lastName: "D'elia",
-  country: "America"
-};
-var Person2 = {
-  fisrtName: "Bill",
-  lastName: "Murray",
-  country: "America"
-};
-var Person3 = {
-  fisrtName: "Patrice",
-  lastName: "O'neal",
-  country: "America"
-};
-var Person4 = {
-  fisrtName: "Bill",
-  lastName: "Burr",
-  country: "America"
-};
-var Person5 = {
-  fisrtName: "Larry",
-  lastName: "David",
-  country: "America"
-};
-var Person6 = {
-  fisrtName: "Joe",
-  lastName: "Rogan",
-  country: "America"
-};
-var Person7 = {
-  fisrtName: "Joey",
-  lastName: "Diaz",
-  country: "America"
-};
-
-var persons = [Person1, Person2, Person3, Person4, Person5, Person6, Person7];
-
 function tableData() {
   var table = document.getElementById("demoTable");
 
@@ -132,7 +102,7 @@ function tableData() {
     table.deleteRow(i);
   }
   */
-
+  /*
   //Create the new table.
   for (var i = 0; i < persons.length; i++) {
     var row = table.insertRow(i + 1);
@@ -143,6 +113,7 @@ function tableData() {
     lastName.innerHTML = persons[i]["lastName"];
     country.innerHTML = persons[i]["country"];
   }
+  */
 }
 
 var direction = 0;
@@ -212,15 +183,6 @@ function tableControl(e) {
       break;
   }
 }
-
-ipcRenderer.send("idNumber", "021283A410L");
-ipcRenderer.on("researches", function(event, arg) {
-  console.log(arg);
-  console.log("zadaa");
-
-  //do child process or other data manipulation and name it manData
-  //event.sender.send(‘manipulatedData’, manData);
-});
 
 function write(arvo) {
   console.log(arvo);

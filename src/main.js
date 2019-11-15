@@ -100,8 +100,16 @@ ipcMain.on("idNumber", async (e, id) => {
       }
     ]
   });
-  console.log(researches[0].name);
-  e.reply("researches", researches);
+  const data = researches.map(rs => {
+    return {
+      name: rs.name,
+      permission: rs.permission,
+      archiveID: rs.archiveID,
+      researchManager: rs.researchManager
+    };
+  });
+  // createMarkdown(id, researches)
+  e.reply("researches", data);
 });
 
 // Finds all people belonging to research
