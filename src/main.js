@@ -95,7 +95,7 @@ ipcMain.on("idNumber", async (e, id) => {
     ]
   });
   console.log(researches[0].name);
-  e.reply("researches", researches);
+  e.reply("researches", researches[0]);
 });
 
 // Finds all people belonging to research
