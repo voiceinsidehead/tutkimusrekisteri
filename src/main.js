@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const { writeFile } = require("fs").promises;
 const env = require("dotenv");
+const mdpdf = require("mdpdf");
 
 env.config();
 
@@ -67,6 +68,27 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+ipcMain.on("saveFilePath", (e, fpath) => {
+  let options = {
+    source: path.join(__dirname, "tmp.md"),
+    destination: fpath,
+    // styles: path.join(__dirname, 'md-styles.css'),
+    pdf: {
+      format: "A4",
+      orientation: "portrait"
+    }
+  };
+
+  mdpdf
+    .convert(options)
+    .then(pdfPath => {
+      console.log("PDF Path:", pdfPath);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+});
+
 // Connect database with new setup.
 ipcMain.on("dbSetupChannel", async (event, data) => {
   await db.connect(data).then(() => db.sequelize.sync());
@@ -127,7 +149,7 @@ ipcMain.on("getDBSetup", e => {
 async function createMarkdown(id, data) {
   const str = `## RESEARCHS for ID: ${id}
   ${researchesToString(data)}`;
-  await writeFile("./tmp.md", str);
+  await writeFile(path.join(__dirname, "tmp.md"), str);
 }
 
 function researchesToString(data) {
