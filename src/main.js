@@ -73,7 +73,7 @@ ipcMain.on("dbSetupChannel", async (event, data) => {
   await db.connect(data).then(() => db.sequelize.sync());
 });
 
-// get filepath from rendered method
+// get add filepath from rendered method
 ipcMain.on("dataChannel", async (event, obj, file) => {
   let ids = readCsv(file);
   let rs = db.Research.create(obj);
