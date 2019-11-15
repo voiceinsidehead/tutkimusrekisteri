@@ -5,16 +5,17 @@ const env = require("dotenv");
 env.config();
 
 // Database refernce
-const db = require(path.resolve(".", "models"));
+const Database = require(path.resolve(".", "models"));
 
+let db = new Database();
+db.connect().then(() => db.sequelize.sync({ force: true }));
 ///FORCING DROPS THE DATABASE ! FOR TESTING PURPOSES ONLY ! MUST BE REMOVED !
-db.sequelize.sync({ force: true });
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
-let researches = db.Research.findAll();
+//let researches = db.Research.findAll();
 
 function createWindow() {
   // Create the browser window.
@@ -69,11 +70,7 @@ app.on("activate", () => {
 
 //get database connection setup data
 ipcMain.on("dbSetupChannel", async (event, data) => {
-  let dbName = data.dbName;
-  let dbAddress = data.dbAddress;
-  let dbUser = data.dbUser;
-  let dbPassword = data.dbPassword;
-  console.log(dbName, dbAddress, dbUser, dbPassword);
+  await db.connect(data).then(() => db.sequelize.sync());
 });
 
 // get filepath from rendered method
@@ -113,7 +110,11 @@ ipcMain.on("research", async (e, id) => {
   let people = await research.getPeople({
     joinTableAttributes: ["identificationHash"]
   });
-  ipcMain.send("researchPeople", people);
+  e.reply("researchPeople", people);
+});
+
+ipcMain.on("getDBSetup", e => {
+  e.reply("dbSetup", db.connection);
 });
 
 async function readCsv(filepath) {
