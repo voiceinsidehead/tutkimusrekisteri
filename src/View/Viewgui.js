@@ -41,7 +41,6 @@ function Buttongreen(event) {
     case selected == "Person" && event.type == "click":
       document.getElementById("demoTable").style.visibility = "visible";
       //add fuction for creating new input box
-      tableData();
       personQuery();
       break;
     //do child process or other data manipulation and name it manData
@@ -65,10 +64,8 @@ function Buttongreen(event) {
 function personQuery() {
   ipcRenderer.send("idNumber", "021283A410L");
   ipcRenderer.on("researches", function(event, arg) {
-    /*arg.forEach((obj) => {
-    console.log(obj);
-  })*/
     console.log(arg);
+    tableData(arg);
   });
 }
 
@@ -93,28 +90,26 @@ function inputbox(param) {
   }
 }
 
-function tableData() {
+function tableData(persons) {
   var table = document.getElementById("demoTable");
 
   //Wipe the previous table.
-  /*
-  for(var i = table.rows.length - 1; i > 0; i--)
-  {
+  for (var i = table.rows.length - 1; i > 0; i--) {
     table.deleteRow(i);
   }
-  */
-  /*
+
   //Create the new table.
   for (var i = 0; i < persons.length; i++) {
     var row = table.insertRow(i + 1);
-    var fisrtName = row.insertCell(0);
-    var lastName = row.insertCell(1);
-    var country = row.insertCell(2);
-    fisrtName.innerHTML = persons[i]["fisrtName"];
-    lastName.innerHTML = persons[i]["lastName"];
-    country.innerHTML = persons[i]["country"];
+    var Name = row.insertCell(0);
+    var Persmission = row.insertCell(1);
+    var ArchiveID = row.insertCell(2);
+    var ResearchManager = row.insertCell(3);
+    Name.innerHTML = persons[i]["name"];
+    Persmission.innerHTML = persons[i]["permission"];
+    ArchiveID.innerHTML = persons[i]["archiveID"];
+    ResearchManager.innerHTML = persons[i]["researchManager"];
   }
-  */
 }
 
 var direction = 0;
