@@ -1,4 +1,5 @@
 const { dialog } = require("electron").remote;
+const { ipcRenderer } = require("electron");
 
 window.onload = function() {
   dragElement(document.getElementById("demoTable"));
@@ -12,8 +13,6 @@ window.onload = function() {
   window.addEventListener("keydown", tableControl);
   window.addEventListener("wheel", tableControl);
 };
-
-var ipcRenderer = require("electron").ipcRenderer;
 
 dragElement(document.getElementById("demoTable"));
 //Function for deciding wich table to show and button (Id == Submit) color.
@@ -243,6 +242,7 @@ function dragElement(elmnt) {
   }
 }
 
+//save file dialog
 async function saveFile() {
   let options = {
     title: "Save file",
@@ -251,4 +251,6 @@ async function saveFile() {
     filters: [{ name: "PDF", extensions: ["pdf"] }]
   };
   let dialogObject = await dialog.showSaveDialog(options);
+  let filepath = dialogObject.filePath;
+  ipcRenderer.send("saveFilePath", filepath);
 }
