@@ -33,15 +33,16 @@ function Buttongreen(event) {
     case selected == "Person" && event.type == "change":
       submit.style.background = "#4caf50";
       submit.style.color = "white";
-      inputbox("add");
+      inputbox("delete");
+      inputbox("searchPerson");
       break;
 
     //Case when selection is specified and specific button (Id == Submit) is pressed.
     case selected == "Person" && event.type == "click":
       document.getElementById("demoTable").style.visibility = "visible";
       //add fuction for creating new input box
-      tableData();
-      personQuery();
+      let searchFor = document.getElementById("text").value;
+      personQuery("researches", searchFor, true);
       break;
     //do child process or other data manipulation and name it manData
     //event.sender.send(‘manipulatedData’, manData);
@@ -51,24 +52,39 @@ function Buttongreen(event) {
       submit.style.background = "#4caf50";
       submit.style.color = "white";
       inputbox("delete");
+      inputbox("searchResearch");
       break;
 
-    //Case when selection is specified and specific button (Id == Submit) is pressed.
+    //Case when selection is speified and specific button (Id == Submit) is pressed.
     case selected == "ResearchId" && event.type == "click":
       document.getElementById("demoTable").style.visibility = "visible";
-      tableData();
+      searchFor = document.getElementById("text").value;
+      personQuery("resPeople", searchFor, false);
       break;
   }
 }
 
-function personQuery() {
+function personQuery(searchTable, searchFor, wipeTable) {
+  /*
   ipcRenderer.send("idNumber", "021283A410L");
   ipcRenderer.on("researches", function(event, arg) {
-    /*arg.forEach((obj) => {
-    console.log(obj);
-  })*/
-    console.log(arg);
-  });
+*/
+  if (searchTable == "researches") {
+    ipcRenderer.send("idNumber", searchFor);
+    ipcRenderer.on("researches", function(event, arg) {
+      console.log(arg);
+      tableData(searchTable, arg, wipeTable);
+    });
+  }
+
+  if (searchTable == "resPeople") {
+    ipcRenderer.send("research", searchFor);
+    ipcRenderer.on("researchPeople", function(event, arg) {
+      console.log(arg);
+      tableData(searchTable, arg, wipeTable);
+    });
+  }
+  //tableData("person", arg);
 }
 
 function inputbox(param) {
@@ -76,13 +92,21 @@ function inputbox(param) {
     .getElementsByClassName("tableSelect")[0]
     .getElementsByTagName("input").length;
 
-  if (param == "add") {
+  if (param == "searchPerson") {
     var input = document.createElement("input");
     input.type = "text";
     input.setAttribute("id", "text");
     input.setAttribute("type", "text");
-    input.setAttribute("name", "username");
-    input.setAttribute("placeholder", "Hlö");
+    input.setAttribute("placeholder", "Person:");
+    document.getElementsByClassName("tableSelect")[0].appendChild(input);
+  }
+
+  if (param == "searchResearch") {
+    var input = document.createElement("input");
+    input.type = "text";
+    input.setAttribute("id", "text");
+    input.setAttribute("type", "text");
+    input.setAttribute("placeholder", "Research id:");
     document.getElementsByClassName("tableSelect")[0].appendChild(input);
   }
 
@@ -92,28 +116,29 @@ function inputbox(param) {
   }
 }
 
-function tableData() {
+//Function for drawing and deleting table
+function tableData(value, array, wipeTable) {
   var table = document.getElementById("demoTable");
 
   //Wipe the previous table.
-  /*
-  for(var i = table.rows.length - 1; i > 0; i--)
-  {
-    table.deleteRow(i);
+  if (wipeTable) {
+    for (var i = table.rows.length - 1; i > 0; i--) {
+      table.deleteRow(i);
+    }
   }
-  */
-  /*
-  //Create the new table.
-  for (var i = 0; i < persons.length; i++) {
-    var row = table.insertRow(i + 1);
-    var fisrtName = row.insertCell(0);
-    var lastName = row.insertCell(1);
-    var country = row.insertCell(2);
-    fisrtName.innerHTML = persons[i]["fisrtName"];
-    lastName.innerHTML = persons[i]["lastName"];
-    country.innerHTML = persons[i]["country"];
+  if (value == "researches") {
+    for (var i = 0; i < array.length; i++) {
+      var row = table.insertRow(i + 1);
+      var Name = row.insertCell(0);
+      var Persmission = row.insertCell(1);
+      var ArchiveID = row.insertCell(2);
+      var ResearchManager = row.insertCell(3);
+      Name.innerHTML = array[i]["name"];
+      Persmission.innerHTML = array[i]["permission"];
+      ArchiveID.innerHTML = array[i]["archiveID"];
+      ResearchManager.innerHTML = array[i]["researchManager"];
+    }
   }
-  */
 }
 
 var direction = 0;
@@ -251,6 +276,7 @@ function dragElement(elmnt) {
 async function saveFile() {
   let options = {
     title: "Save file",
+    //checks the users platform
     defaultPath: process.platform == "linux" ? ".pdf" : "",
     buttonLabel: "Save As PDF",
     filters: [{ name: "PDF", extensions: ["pdf"] }]
