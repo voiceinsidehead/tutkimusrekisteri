@@ -133,6 +133,11 @@ ipcMain.on("idNumber", async (e, id) => {
   e.reply("researches", data);
 });
 
+ipcMain.on("getAllResearches", (e) =>  {
+  let researches = await db.Research.findAll()
+  e.reply("allResearches", researches)
+})
+
 // Finds all people belonging to research
 ipcMain.on("research", async (e, id) => {
   let research = await db.Research.findByPk(id);
@@ -155,7 +160,7 @@ async function createMarkdown(id, data) {
 function researchesToString(data) {
   return data
     .map((rs, i) => {
-      `### ${i}. ${rs.name}
+    `### ${i}. ${rs.name}
     - ${rs.permission}
     - ${rs.archiveID}
     - ${rs.researchManager}

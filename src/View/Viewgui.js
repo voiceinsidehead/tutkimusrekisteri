@@ -251,7 +251,7 @@ function dragElement(elmnt) {
 async function saveFile() {
   let options = {
     title: "Save file",
-    defaultPath: ".pdf",
+    defaultPath: process.platform == "linux" ? ".pdf" : "",
     buttonLabel: "Save As PDF",
     filters: [{ name: "PDF", extensions: ["pdf"] }]
   };
