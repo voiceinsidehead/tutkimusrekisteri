@@ -89,7 +89,7 @@ function tableData(array, tableName) {
   }
 
   //Table that is drawn when query returned values for all the researches where person has been.
-  if (tableName == "researches") {
+  if (tableName == "researches" && array.length < 0) {
     let header = table.createTHead();
     var row = header.insertRow(0);
 
