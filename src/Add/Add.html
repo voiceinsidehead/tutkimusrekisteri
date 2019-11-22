@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="Addstyle.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="Addstyle.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../../resources/pure.css" />
     <title>Reasearch database editor/Add</title>
   </head>
 
@@ -12,44 +13,57 @@
     <p id="filepath">_______________________</p>
     <button id="addFileBtn">Add File</button>
 
-    <div class="flex-container">
+    <div>
       <!-- form for adding research data to database -->
-      <form id="formi">
-        <p>Name</p>
-        <input
-          class="input"
-          type="text"
-          autocomplete="off"
-          placeholder="Name..."
-          name="name"
-        />
-        <p>Permission</p>
-        <input
-          class="input"
-          type="text"
-          autocomplete="off"
-          placeholder="Permission..."
-          name="permission"
-        />
-        <p>Archive Id</p>
-        <input
-          class="input"
-          type="text"
-          autocomplete="off"
-          placeholder="Archive Id..."
-          name="archiveId"
-        />
-        <p>Reasearch Manager</p>
-        <input
-          class="input"
-          type="text"
-          autocomplete="off"
-          placeholder="Research Manager..."
-          name="researchManager"
-        />
-        <div class="submit-div">
-          <input type="submit" value="Send" />
-        </div>
+      <form class="pure-form pure-form-aligned" id="formi">
+        <fieldset>
+          <div class="pure-control-group">
+            <label for="name">Name</label>
+            <input
+              class="input"
+              type="text"
+              autocomplete="off"
+              placeholder="Name..."
+              name="name"
+            />
+          </div>
+
+          <div class="pure-control-group">
+            <label for="permission">Permission</label>
+            <input
+              class="input"
+              type="text"
+              autocomplete="off"
+              placeholder="Permission..."
+              name="permission"
+            />
+          </div>
+          <div class="pure-control-group">
+            <label for="arhiveId">Archive ID</label>
+            <input
+              class="input"
+              type="text"
+              autocomplete="off"
+              placeholder="Archive Id..."
+              name="archiveId"
+            />
+          </div>
+
+          <div class="pure-control-group">
+            <label for="researchManager">Research Manager</label>
+            <input
+              class="input"
+              type="text"
+              autocomplete="off"
+              placeholder="Research Manager..."
+              name="researchManager"
+            />
+          </div>
+
+          <div class="submit-div">
+            <input type="submit" value="Send" />
+          </div>
+        </fieldset>
       </form>
     </div>
 
