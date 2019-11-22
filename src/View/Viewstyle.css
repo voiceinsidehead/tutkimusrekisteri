@@ -1,19 +1,137 @@
-/*Style of the div that contains selection, from where is decided wich table to show*/
-.tableSelect {
-  margin: auto;
-  width: 20%;
-  border: 3px solid green;
-  padding: 10px;
-  text-align: center;
-  background: white;
+body,
+html {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
 }
 
+p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+input {
+  border: 2px solid #708090; /* this will give the input 1px black border all around */
+  border-left: 2px solid #708090;
+  border-right: 2px solid #708090;
+  background-color: #dadada;
+  text-align: center;
+  width: 96%;
+  height: 67%;
+  color: #708090;
+}
+
+#contentDiv {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+#topBar {
+  display: flex;
+  height: 10%;
+  width: 100%;
+  background-color: #dadada;
+}
+
+#person {
+  display: inline-block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-top: 2px solid #708090;
+  border-right: 2px solid #708090;
+  border-left: 2px solid #708090;
+  border-bottom: 2px solid #708090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  line-height: 50%;
+  height: 50%;
+  width: 100%;
+  background-color: #dadada;
+  color: #708090;
+}
+
+#research {
+  display: inline-block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: 2px solid #708090;
+  border-right: 2px solid #708090;
+  border-left: 2px solid #708090;
+  border-bottom: 2px solid #708090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  line-height: 50%;
+  height: 50%;
+  width: 100%;
+  background-color: #dadada;
+  color: #708090;
+}
+
+#research:hover,
+#person:hover {
+  background-color: #708090;
+  color: #dadada;
+}
+
+#searchBox {
+  display: inline-block;
+  clear: both;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: 2px solid #708090;
+  border-right: 2px solid #708090;
+  border-top: 2px solid #708090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 55%;
+  background-color: #dadada;
+  color: #708090;
+}
+
+#search {
+  display: inline-block;
+  clear: both;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: 2px solid #708090;
+  border-right: 2px solid #708090;
+  border-top: 2px solid #708090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #dadada;
+  color: #708090;
+  height: 100%;
+  width: 27%;
+}
+
+#search:hover {
+  background-color: #708090;
+  color: #dadada;
+}
+
+/*Style of the div that contains selection, from where is decided wich table to show*/
+
 /*Table that appears after selecting wich table to show and pressing submit*/
-#demoTable {
+#dataTable {
   position: absolute;
   margin-left: auto;
   margin-right: auto;
-  /*top: 22%;*/
+  top: 10%;
   left: 32.5%;
   width: 35%;
   font-family: arial, sans-serif;
@@ -30,13 +148,4 @@ th {
 }
 tr:nth-child(even) {
   background-color: #dddddd;
-}
-
-/*Submit button style*/
-.Submit {
-  display: block;
-  margin: 10px auto;
-  border: 3px solid green;
-  padding: 10px;
-  background-color: white;
 }

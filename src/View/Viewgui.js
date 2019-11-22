@@ -2,131 +2,107 @@ const { dialog } = require("electron").remote;
 const { ipcRenderer } = require("electron");
 
 window.onload = function() {
-  dragElement(document.getElementById("demoTable"));
-  document.getElementById("Back").addEventListener("click", BackPage);
+  dragElement(document.getElementById("dataTable"));
+  let person = document.getElementById("person");
 
   Tab_Selected = document.getElementById("tab_Sel");
-  Tab_Selected.addEventListener("change", Buttongreen);
-  Submit.addEventListener("click", Buttongreen);
+
+  document.getElementById("person").addEventListener("click", function() {
+    changeColor("person");
+  });
+  document.getElementById("research").addEventListener("click", function() {
+    changeColor("research");
+  });
+  document.getElementById("search").addEventListener("click", function() {
+    personQuery();
+  });
+
   window.addEventListener("keyup", tableControl);
   window.addEventListener("keypress", tableControl);
   window.addEventListener("keydown", tableControl);
   window.addEventListener("wheel", tableControl);
 };
 
-dragElement(document.getElementById("demoTable"));
-//Function for deciding wich table to show and button (Id == Submit) color.
-function Buttongreen(event) {
-  var selected = document.getElementById("tab_Sel").value;
-  var submit = document.getElementById("Submit");
+let personsBool = false;
+let researchesBool = false;
 
-  switch (true) {
-    //Default state of the selection and default button (Id == Submit) color.
-    case selected == "Default":
-      submit.style.background = "white";
-      submit.style.color = "black";
-      document.getElementById("demoTable").style.visibility = "hidden";
-      inputbox("delete");
-      break;
+//Function for changing button text and backround color
+function changeColor(variable) {
+  personBool = false;
 
-    //Changes color of the button to green to symbolize that selections are aproved.
-    case selected == "Person" && event.type == "change":
-      submit.style.background = "#4caf50";
-      submit.style.color = "white";
-      inputbox("delete");
-      inputbox("searchPerson");
-      break;
+  var person = document.getElementById("person");
+  var research = document.getElementById("research");
 
-    //Case when selection is specified and specific button (Id == Submit) is pressed.
-    case selected == "Person" && event.type == "click":
-      document.getElementById("demoTable").style.visibility = "visible";
-      //add fuction for creating new input box
-      let searchFor = document.getElementById("text").value;
-      personQuery("researches", searchFor, true);
-      break;
-    //do child process or other data manipulation and name it manData
-    //event.sender.send(‘manipulatedData’, manData);
+  if (variable == "person") {
+    personsBool = false;
+    researchesBool = true;
 
-    //Changes color of the button to green to symbolize that selections are aproved.
-    case selected == "ResearchId" && event.type == "change":
-      submit.style.background = "#4caf50";
-      submit.style.color = "white";
-      inputbox("delete");
-      inputbox("searchResearch");
-      break;
+    person.style.background = "#708090";
+    person.style.color = "#DADADA";
 
-    //Case when selection is speified and specific button (Id == Submit) is pressed.
-    case selected == "ResearchId" && event.type == "click":
-      document.getElementById("demoTable").style.visibility = "visible";
-      searchFor = document.getElementById("text").value;
-      personQuery("resPeople", searchFor, false);
-      break;
+    research.style.background = "#DADADA";
+    research.style.color = "#708090";
+  }
+
+  if (variable == "research") {
+    personsBool = true;
+    researchesBool = false;
+
+    research.style.background = "#708090";
+    research.style.color = "#DADADA";
+
+    person.style.background = "#DADADA";
+    person.style.color = "#708090";
   }
 }
 
-function personQuery(searchTable, searchFor, wipeTable) {
-  /*
-  ipcRenderer.send("idNumber", "021283A410L");
-  ipcRenderer.on("researches", function(event, arg) {
-*/
-  if (searchTable == "researches") {
+function personQuery() {
+  let searchFor = document.getElementById("searchValue").value;
+
+  if (researchesBool) {
     ipcRenderer.send("idNumber", searchFor);
     ipcRenderer.on("researches", function(event, arg) {
-      console.log(arg);
-      tableData(searchTable, arg, wipeTable);
+      tableData(arg, "researches");
     });
   }
 
-  if (searchTable == "resPeople") {
+  if (personsBool) {
+    tableData([], "persons");
+    /*    Needs main.js ipcRenderer chanel/function for pulling up the data.
     ipcRenderer.send("research", searchFor);
     ipcRenderer.on("researchPeople", function(event, arg) {
       console.log(arg);
-      tableData(searchTable, arg, wipeTable);
+      tableData(arg);
     });
-  }
-  //tableData("person", arg);
-}
-
-function inputbox(param) {
-  var list = document
-    .getElementsByClassName("tableSelect")[0]
-    .getElementsByTagName("input").length;
-
-  if (param == "searchPerson") {
-    var input = document.createElement("input");
-    input.type = "text";
-    input.setAttribute("id", "text");
-    input.setAttribute("type", "text");
-    input.setAttribute("placeholder", "Person:");
-    document.getElementsByClassName("tableSelect")[0].appendChild(input);
-  }
-
-  if (param == "searchResearch") {
-    var input = document.createElement("input");
-    input.type = "text";
-    input.setAttribute("id", "text");
-    input.setAttribute("type", "text");
-    input.setAttribute("placeholder", "Research id:");
-    document.getElementsByClassName("tableSelect")[0].appendChild(input);
-  }
-
-  if (param == "delete" && list > 0) {
-    var elem = document.getElementById("text");
-    document.getElementsByClassName("tableSelect")[0].removeChild(elem);
+    */
   }
 }
 
 //Function for drawing and deleting table
-function tableData(value, array, wipeTable) {
-  var table = document.getElementById("demoTable");
+function tableData(array, tableName) {
+  var table = document.getElementById("dataTable");
 
   //Wipe the previous table.
-  if (wipeTable) {
-    for (var i = table.rows.length - 1; i > 0; i--) {
-      table.deleteRow(i);
-    }
+  table.deleteTHead();
+  for (var i = table.rows.length - 1; i > 0; i--) {
+    table.deleteRow(i);
   }
-  if (value == "researches") {
+
+  //Table that is drawn when query returned values for all the researches where person has been.
+  if (tableName == "researches") {
+    let header = table.createTHead();
+    var row = header.insertRow(0);
+
+    var th1 = row.insertCell(0);
+    var th2 = row.insertCell(1);
+    var th3 = row.insertCell(2);
+    var th4 = row.insertCell(3);
+
+    th1.innerHTML = "<b>Name</b>";
+    th2.innerHTML = "<b>Permission</b>";
+    th3.innerHTML = "<b>ArchiveID</b>";
+    th4.innerHTML = "<b>ResearchManager</b>";
+
     for (var i = 0; i < array.length; i++) {
       var row = table.insertRow(i + 1);
       var Name = row.insertCell(0);
@@ -139,15 +115,26 @@ function tableData(value, array, wipeTable) {
       ResearchManager.innerHTML = array[i]["researchManager"];
     }
   }
+
+  //Table that is drawn when query returned people particapated in research.
+  if (tableName == "persons") {
+    //Placeholder code
+    table.deleteTHead();
+    for (var i = table.rows.length - 1; i > 0; i--) {
+      table.deleteRow(i);
+    }
+  }
+  table.style.visibility = "visible";
 }
 
 var direction = 0;
 var scaleValue = 1;
 var map = {};
+
 function tableControl(e) {
   e = e || event; // to deal with IE
   map[e.keyCode] = e.type == "keydown";
-  var demoTable = document.getElementById("demoTable");
+  var dataTable = document.getElementById("dataTable");
   var windowWidht = window.innerWidth;
   var windowHeight = window.innerHeight;
   var leftValue;
@@ -168,7 +155,7 @@ function tableControl(e) {
     case (map[17] && map[107]) || direction > 0:
       direction = 0;
       scaleValue += 0.1;
-      document.getElementById("demoTable").style.transform =
+      document.getElementById("dataTable").style.transform =
         "scale(" + scaleValue + ")";
       break;
 
@@ -176,32 +163,32 @@ function tableControl(e) {
     case (map[17] && map[109]) || direction < 0:
       direction = 0;
       scaleValue -= 0.1;
-      document.getElementById("demoTable").style.transform =
+      document.getElementById("dataTable").style.transform =
         "scale(" + scaleValue + ")";
       break;
 
     //Make table move to left.
     case map[17] && map[37]:
-      leftValue = (demoTable.offsetLeft / windowWidht) * 100 - 0.5;
-      document.getElementById("demoTable").style.left = leftValue + "%";
+      leftValue = (dataTable.offsetLeft / windowWidht) * 100 - 0.5;
+      document.getElementById("dataTable").style.left = leftValue + "%";
       break;
 
     //Make table move to right.
     case map[17] && map[39]:
-      leftValue = (demoTable.offsetLeft / windowWidht) * 100 + 0.5;
-      document.getElementById("demoTable").style.left = leftValue + "%";
+      leftValue = (dataTable.offsetLeft / windowWidht) * 100 + 0.5;
+      document.getElementById("dataTable").style.left = leftValue + "%";
       break;
 
     //Make table move up.
     case map[17] && map[38]:
-      topValue = (demoTable.offsetTop / windowHeight) * 100 - 0.5;
-      document.getElementById("demoTable").style.top = topValue + "%";
+      topValue = (dataTable.offsetTop / windowHeight) * 100 - 0.5;
+      document.getElementById("dataTable").style.top = topValue + "%";
       break;
 
     //Make table move up.
     case map[17] && map[40]:
-      topValue = (demoTable.offsetTop / windowHeight) * 100 + 0.5;
-      document.getElementById("demoTable").style.top = topValue + "%";
+      topValue = (dataTable.offsetTop / windowHeight) * 100 + 0.5;
+      document.getElementById("dataTable").style.top = topValue + "%";
       break;
 
     default:
@@ -209,33 +196,14 @@ function tableControl(e) {
   }
 }
 
-function write(arvo) {
-  console.log(arvo);
-}
-
-function Showtable(skia) {
-  var h1 = document.createElement("h1");
-  h1.textContent = skia;
-  h1.setAttribute("class", "note");
-  document.body.appendChild(h1);
-}
-
-function BackPage() {
-  location.replace("../index.html");
-}
-
-function ViewPage() {
-  location.replace("View/View.html");
-}
-
 function dragElement(elmnt) {
   var pos1 = 0,
     pos2 = 0,
     pos3 = 0,
     pos4 = 0;
-  if (document.getElementById(elmnt.id + "demoTable")) {
+  if (document.getElementById(elmnt.id + "dataTable")) {
     // if present, the header is where you move the DIV from:
-    document.getElementById(elmnt.id + "demoTable").onmousedown = dragMouseDown;
+    document.getElementById(elmnt.id + "dataTable").onmousedown = dragMouseDown;
   } else {
     // otherwise, move the DIV from anywhere inside the DIV:
     elmnt.onmousedown = dragMouseDown;
