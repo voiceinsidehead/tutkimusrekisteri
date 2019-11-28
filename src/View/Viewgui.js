@@ -209,10 +209,6 @@ function tableControl(e) {
   }
 }
 
-function write(arvo) {
-  console.log(arvo);
-}
-
 function Showtable(skia) {
   var h1 = document.createElement("h1");
   h1.textContent = skia;

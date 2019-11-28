@@ -1,6 +1,6 @@
 const { ipcRenderer, remote } = require("electron");
 
-document.getElementById("back").addEventListener("click", BackPage);
+// document.getElementById("back").addEventListener("click", BackPage);
 
 let form = document.getElementById("formi");
 form.addEventListener("submit", submit);
@@ -8,26 +8,20 @@ form.addEventListener("submit", submit);
 let addFileBtn = document.getElementById("addFileBtn");
 addFileBtn.addEventListener("click", addfile);
 
-function BackPage() {
-  location.replace("../index.html");
-}
-
 //gets form data
 function submit(e) {
   e.preventDefault();
   //create object to store form data
-  let formData = {};
+  let data = {};
 
-  formData.name = form.elements[0].value;
-  formData.permission = form.elements[1].value;
-  formData.archiveID = form.elements[2].value;
-  formData.researchManager = form.elements[3].value;
-
+  for (let i = 0; i < form.elements.length; i++) {
+    let elem = form.elements[i];
+    if (elem.nodeName === "INPUT" && elem.type !== "submit")
+      data[elem.name] = elem.value;
+  }
   //send data to main.js
-  ipcRenderer.send("dataChannel", formData, sendFilePath);
+  ipcRenderer.send("addResearch", data);
 }
-
-let sendFilePath;
 
 function addfile() {
   //opens native file explorer window
@@ -36,9 +30,7 @@ function addfile() {
   explorer.then(function(value) {
     if (value.canceled == false) {
       let filepath = value.filePaths[0];
-      document.getElementById("filepath").innerHTML = filepath;
-      console.log(filepath);
-      sendFilePath = filepath;
+      form.elements["file"].value = filepath;
     } else {
       console.log("Canceled!");
     }

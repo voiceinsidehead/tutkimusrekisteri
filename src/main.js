@@ -24,15 +24,11 @@ function createWindow() {
     height: 600,
     webPreferences: {
       nodeIntegration: true
-    },
-    preload: "./preload.js"
+    }
   });
 
   // and load the index.html of the app.
   win.loadFile("index.html");
-
-  // Open the DevTools.
-  //win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on("closed", () => {
@@ -95,10 +91,11 @@ ipcMain.on("dbSetupChannel", async (event, data) => {
 });
 
 // Get filepath from rendered method
-ipcMain.on("dataChannel", async (event, obj, file) => {
-  let ids = readCsv(file);
-  let rs = db.Research.create(obj);
-  Promise.all([rs, ids]).then(([research, data]) => {
+ipcMain.on("addResearch", async (e, data) => {
+  let ids = readCsv(data.file);
+  delete data.file;
+  let rs = db.Research.create(data);
+  await Promise.all([rs, ids]).then(([research, data]) => {
     console.log(`RESEARCH ID: ${research.researchID}`);
     data.forEach(async value => {
       let [person, _] = await db.Person.findOrCreate({
@@ -109,6 +106,7 @@ ipcMain.on("dataChannel", async (event, obj, file) => {
       });
     });
   });
+  e.reply("researchAdded");
 });
 
 // Finds all the researches where ID belongs.
