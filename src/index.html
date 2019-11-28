@@ -7,15 +7,36 @@
     <title>Reasearch database editor</title>
   </head>
   <body style="overflow: hidden">
-    <script type="text/javascript" src="Indexgui.js"></script>
-    <div class="vertical-center">
-      <div class="center" id="main">
-        <button id="View" class="View">View data</button>
-        <button id="Modify" class="Modify">Add data</button>
+    <div id="container">
+      <div id="sideBar">
+        <div id="add">
+          <img
+            class="sidebutton"
+            src="img\plus-solid.svg"
+            style="width: 60%; height: 70%;"
+          />
+        </div>
+
+        <div id="view">
+          <img
+            class="sidebutton"
+            src="img\file-regular.svg"
+            style="width: 60%; height: 70%;"
+          />
+        </div>
+
+        <div id="setup">
+          <img
+            class="sidebutton"
+            src="img\cogs-solid.svg"
+            style="width: 60%; height: 70%;"
+          />
+        </div>
       </div>
+
+      <div id="topBar"></div>
+      <div id="main"></div>
     </div>
-    <div>
-      <button id="Setup">Setup</button>
-    </div>
+    <script type="text/javascript" src="Indexgui.js"></script>
   </body>
 </html>

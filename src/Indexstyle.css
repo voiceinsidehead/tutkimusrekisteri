@@ -1,3 +1,10 @@
+body,
+html {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
+
 .Txt {
   text-align: center;
 }
@@ -19,6 +26,97 @@
   /* Safari */
   transition-duration: 0.4s;
   cursor: pointer;
+}
+
+#container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+#topBar {
+  margin-top: 0px;
+  display: flex;
+  overflow: hidden;
+  background-color: #dadada;
+  width: 100%;
+  height: 13%;
+}
+
+#sideBar {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  height: 100%;
+  margin: 0px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-top: 2px solid #708090;
+  border-right: 2px solid #708090;
+  border-left: 2px solid #708090;
+  border-bottom: 2px solid #708090;
+  background-color: #dadada;
+}
+
+#add {
+  width: 100%;
+  height: 13%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: 2px solid #708090;
+  margin-top: 0px;
+}
+
+#view {
+  width: 100%;
+  height: 13%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: 2px solid #708090;
+  margin-bottom: auto;
+}
+
+#setup {
+  width: 100%;
+  height: 13%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-top: 2px solid #708090;
+  margin-bottom: 0px;
+}
+
+.sidebutton {
+  padding: 18% 23% 18% 23%;
+  filter: invert(57%) sepia(7%) saturate(1079%) hue-rotate(169deg)
+    brightness(84%) contrast(83%);
+}
+
+.sidebutton:hover {
+  filter: invert(89%) sepia(0%) saturate(0%) hue-rotate(75deg) brightness(98%)
+    contrast(90%);
+}
+
+#setup:hover,
+#add:hover,
+#view:hover {
+  background-color: #708090;
+  color: #dadada;
 }
 
 #View.View {
