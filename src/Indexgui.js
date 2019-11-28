@@ -1,7 +1,7 @@
 window.onload = function() {
-  document.getElementById("View").addEventListener("click", ViewPage);
-  document.getElementById("Modify").addEventListener("click", ModifyPage);
-  document.getElementById("Setup").addEventListener("click", SetupPage);
+  document.getElementById("view").addEventListener("click", ViewPage);
+  document.getElementById("add").addEventListener("click", ModifyPage);
+  document.getElementById("setup").addEventListener("click", SetupPage);
 };
 
 function ModifyPage() {
