@@ -1,16 +1,7 @@
 const { ipcRenderer, remote } = require("electron");
 
-// document.getElementById("back").addEventListener("click", BackPage);
-
-let form = document.getElementById("formi");
-form.addEventListener("submit", submit);
-
-let addFileBtn = document.getElementById("addFileBtn");
-addFileBtn.addEventListener("click", addfile);
-
 //gets form data
-function submit(e) {
-  e.preventDefault();
+function submit(form) {
   //create object to store form data
   let data = {};
 
@@ -23,7 +14,7 @@ function submit(e) {
   ipcRenderer.send("addResearch", data);
 }
 
-function addfile() {
+function addFile(form) {
   //opens native file explorer window
   let explorer = remote.dialog.showOpenDialog({ properties: ["openFile"] });
   console.log(explorer);
@@ -36,3 +27,57 @@ function addfile() {
     }
   });
 }
+
+function createForm() {
+  let form = document.createElement("form");
+  form.className = "pure-form pure-form-aligned";
+  let fs = document.createElement("fieldset");
+  form.append(fs);
+  let fileButton = document.createElement("button");
+  fileButton.className = "pure-button";
+  fileButton.setAttribute("type", "button");
+  fileButton.append("Add File");
+  fileButton.addEventListener("click", e => {
+    addFile(form);
+  });
+  let controls = document.createElement("div");
+  controls.className = "pure-controls";
+  let submitButton = document.createElement("button");
+  submitButton.className = "pure-button";
+  submitButton.setAttribute("type", "button");
+  submitButton.append("Add Research");
+  submitButton.addEventListener("click", e => {
+    submit(form);
+  });
+  controls.append(submitButton);
+  fs.append(
+    createControlGroup(createTextInput("Name", "name")),
+    createControlGroup(createTextInput("Permission", "permission")),
+    createControlGroup(createTextInput("Archive ID", "archiveID")),
+    createControlGroup(createTextInput("Research Manager", "researchManager")),
+    createControlGroup([...createTextInput("CSV File", "file"), fileButton]),
+    controls
+  );
+  return form;
+}
+
+function createControlGroup(controls) {
+  let cg = document.createElement("div");
+  cg.className = "pure-control-group";
+  cg.append(...controls);
+  return cg;
+}
+
+function createTextInput(label, name) {
+  let lbl = document.createElement("label");
+  lbl.setAttribute("for", name);
+  lbl.append(label);
+  let input = document.createElement("input");
+  input.className = "input";
+  input.setAttribute("type", "text");
+  input.setAttribute("placeholder", label);
+  input.setAttribute("name", name);
+  return [lbl, input];
+}
+
+module.exports = { createForm };

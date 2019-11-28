@@ -1,3 +1,5 @@
+const { createForm } = require("./Add/Addgui");
+
 window.onload = function() {
   document.getElementById("View").addEventListener("click", ViewPage);
   document.getElementById("Modify").addEventListener("click", ModifyPage);
@@ -5,7 +7,9 @@ window.onload = function() {
 };
 
 function ModifyPage() {
-  location.replace("Add/Add.html");
+  let main = document.getElementById("main");
+  main.innerHTML = "";
+  main.append(createForm());
 }
 
 function ViewPage() {
