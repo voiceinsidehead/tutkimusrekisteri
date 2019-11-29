@@ -1,4 +1,5 @@
 const { createForm } = require("./Add/Addgui");
+const { createSetupForm, getSetup } = require("./Setup/setup");
 
 window.onload = function() {
   document.getElementById("view").addEventListener("click", ViewPage);
@@ -17,5 +18,8 @@ function ViewPage() {
 }
 
 function SetupPage() {
-  location.replace("Setup/setup.html");
+  main.innerHTML = "";
+  main.append(createSetupForm());
+  getSetup();
+  //location.replace("Setup/setup.html")
 }
