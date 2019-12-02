@@ -47,6 +47,26 @@ function createSetupForm() {
   let password = document.createElement("input");
   let submit = document.createElement("input");
 
+  let divDataBaseName = document.createElement("div");
+  divDataBaseName.className = "pure-control-group";
+  let divHost = document.createElement("div");
+  divHost.className = "pure-control-group";
+  let divUser = document.createElement("div");
+  divUser.className = "pure-control-group";
+  let divPassword = document.createElement("div");
+  divPassword.className = "pure-control-group";
+  let divSubmit = document.createElement("div");
+  divSubmit.className = "pure-controls";
+
+  let labelDataBaseName = document.createElement("label");
+  labelDataBaseName.innerHTML = "Database Name ";
+  let labelHost = document.createElement("label");
+  labelHost.innerHTML = "Host IP-Address ";
+  let labelUser = document.createElement("label");
+  labelUser.innerHTML = "Username ";
+  let labelPassword = document.createElement("label");
+  labelPassword.innerHTML = "Password ";
+
   databaseName.name = "database";
   host.name = "host";
   user.name = "username";
@@ -61,14 +81,21 @@ function createSetupForm() {
   submit.addEventListener("submit", submit);
   submit.className = "pure-button";
 
-  let divi = document.createElement("div");
-  divi.className = "pure-controls";
+  divDataBaseName.appendChild(labelDataBaseName);
+  divDataBaseName.appendChild(databaseName);
+  divHost.appendChild(labelHost);
+  divHost.appendChild(host);
+  divUser.appendChild(labelUser);
+  divUser.appendChild(user);
+  divPassword.appendChild(labelPassword);
+  divPassword.appendChild(password);
+  divSubmit.appendChild(submit);
 
-  fs.appendChild(databaseName);
-  fs.appendChild(host);
-  fs.appendChild(user);
-  fs.appendChild(password);
-  fs.appendChild(submit);
+  fs.appendChild(divDataBaseName);
+  fs.appendChild(divHost);
+  fs.appendChild(divUser);
+  fs.appendChild(divPassword);
+  fs.appendChild(divSubmit);
 
   return form;
 }
