@@ -1,3 +1,5 @@
+const { topBarContent } = require("./View/Viewgui");
+
 window.onload = function() {
   document.getElementById("view").addEventListener("click", ViewPage);
   document.getElementById("add").addEventListener("click", ModifyPage);
@@ -9,7 +11,20 @@ function ModifyPage() {
 }
 
 function ViewPage() {
-  location.replace("View/View.html");
+  topBarContent();
+  //location.replace("View/View.html");
+  // Now create and append to iDiv
+  /*
+	let div = document.createElement("div"); 
+	div.id = "topBar";
+
+	let p = document.createElement("p")  
+	let text = document.createTextNode("person");         // Create a text node
+	p.appendChild(text);
+
+	div.appendChild(p);                              // Append the text to <li>
+	document.getElementById("topBar").appendChild(div); 
+	*/
 }
 
 function SetupPage() {

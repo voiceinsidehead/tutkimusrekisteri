@@ -1,7 +1,8 @@
 const { dialog } = require("electron").remote;
 const { ipcRenderer } = require("electron");
+module.exports = { topBarContent };
 
-window.onload = function() {
+/*window.onload = function() {
   dragElement(document.getElementById("dataTable"));
   let person = document.getElementById("person");
 
@@ -21,10 +22,65 @@ window.onload = function() {
   window.addEventListener("keypress", tableControl);
   window.addEventListener("keydown", tableControl);
   window.addEventListener("wheel", tableControl);
-};
+};*/
 
 let personsBool = false;
 let researchesBool = false;
+
+function topBarContent() {
+  let container = document.getElementById("container");
+  let div = document.createElement("div");
+  div.id = "topBar";
+
+  container.appendChild(div);
+
+  let buttons = document.createElement("div");
+  buttons.id = "buttons";
+
+  buttons.style.width = "27%";
+  buttons.style.height = "100%";
+
+  let perdiv = document.createElement("div");
+  perdiv.id = "person";
+
+  let p = document.createElement("p");
+  var text = document.createTextNode("Person");
+  p.appendChild(text);
+  perdiv.appendChild(p);
+
+  let resdiv = document.createElement("div");
+  resdiv.id = "research";
+
+  p = document.createElement("p");
+  text = document.createTextNode("Research");
+  p.appendChild(text);
+  resdiv.appendChild(p);
+
+  let inpdiv = document.createElement("div");
+  inpdiv.id = "searchBox";
+
+  let input = document.createElement("input");
+  input.id = "searchValue";
+
+  input.type = "text";
+  input.value = "";
+
+  let serdiv = document.createElement("div");
+  serdiv.id = "search";
+
+  p = document.createElement("p");
+  text = document.createTextNode("Search");
+  p.appendChild(text);
+  serdiv.appendChild(p);
+
+  inpdiv.appendChild(input);
+  buttons.appendChild(perdiv);
+  buttons.appendChild(resdiv);
+
+  document.getElementById("topBar").appendChild(buttons);
+  document.getElementById("topBar").appendChild(inpdiv);
+  document.getElementById("topBar").appendChild(serdiv);
+}
 
 //Function for changing button text and backround color
 function changeColor(variable) {
