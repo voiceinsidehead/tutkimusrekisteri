@@ -45,7 +45,7 @@ function createSetupForm() {
   let host = document.createElement("input");
   let user = document.createElement("input");
   let password = document.createElement("input");
-  let submit = document.createElement("input");
+  let submit = document.createElement("button");
 
   let divDataBaseName = document.createElement("div");
   divDataBaseName.className = "pure-control-group";
@@ -77,8 +77,11 @@ function createSetupForm() {
   user.setAttribute("type", "text");
   password.setAttribute("type", "password");
 
-  submit.setAttribute("type", "submit");
-  submit.addEventListener("submit", submit);
+  submit.setAttribute("type", "button");
+  submit.append("Submit");
+  submit.addEventListener("click", e => {
+    submit(form);
+  });
   submit.className = "pure-button";
 
   divDataBaseName.appendChild(labelDataBaseName);
