@@ -9,10 +9,6 @@
   </head>
 
   <body>
-    <button id="back" class="back">Back</button>
-    <p id="filepath">_______________________</p>
-    <button id="addFileBtn">Add File</button>
-
     <div>
       <!-- form for adding research data to database -->
       <form class="pure-form pure-form-aligned" id="formi">
@@ -23,7 +19,7 @@
               class="input"
               type="text"
               autocomplete="off"
-              placeholder="Name..."
+              placeholder="Name"
               name="name"
             />
           </div>
@@ -34,18 +30,19 @@
               class="input"
               type="text"
               autocomplete="off"
-              placeholder="Permission..."
+              placeholder="Permission"
               name="permission"
             />
           </div>
+
           <div class="pure-control-group">
             <label for="arhiveId">Archive ID</label>
             <input
               class="input"
               type="text"
               autocomplete="off"
-              placeholder="Archive Id..."
-              name="archiveId"
+              placeholder="Archive ID"
+              name="archiveID"
             />
           </div>
 
@@ -55,13 +52,25 @@
               class="input"
               type="text"
               autocomplete="off"
-              placeholder="Research Manager..."
+              placeholder="Research Manager"
               name="researchManager"
             />
           </div>
 
-          <div class="submit-div">
-            <input type="submit" value="Send" />
+          <div class="pure-control-group">
+            <label for="name">CSV File</label>
+            <input
+              class="input"
+              type="text"
+              autocomplete="off"
+              placeholder="CSV File"
+              name="file"
+            />
+            <button class="pure-button" id="addFileBtn">Add File</button>
+          </div>
+
+          <div class="pure-controls">
+            <button class="pure-button" type="submit">Add Research</button>
           </div>
         </fieldset>
       </form>

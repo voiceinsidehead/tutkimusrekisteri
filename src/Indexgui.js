@@ -1,4 +1,6 @@
 const { topBarContent } = require("./View/Viewgui");
+const { createForm } = require("./Add/Addgui");
+const { createSetupForm, getSetup } = require("./Setup/setup");
 
 window.onload = function() {
   document.getElementById("view").addEventListener("click", ViewPage);
@@ -7,7 +9,9 @@ window.onload = function() {
 };
 
 function ModifyPage() {
-  location.replace("Add/Add.html");
+  let main = document.getElementById("main");
+  main.innerHTML = "";
+  main.append(createForm());
 }
 
 function ViewPage() {
@@ -28,5 +32,8 @@ function ViewPage() {
 }
 
 function SetupPage() {
-  location.replace("Setup/setup.html");
+  main.innerHTML = "";
+  main.append(createSetupForm());
+  getSetup();
+  //location.replace("Setup/setup.html")
 }
