@@ -15,6 +15,7 @@ function ModifyPage() {
 }
 
 function ViewPage() {
+  main.innerHTML = "";
   topBarContent();
   //location.replace("View/View.html");
   // Now create and append to iDiv

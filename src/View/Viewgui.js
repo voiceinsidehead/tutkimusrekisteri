@@ -28,7 +28,7 @@ let personsBool = false;
 let researchesBool = false;
 
 function topBarContent() {
-  let container = document.getElementById("container");
+  let container = document.getElementById("main");
   let div = document.createElement("div");
   div.id = "topBar";
 

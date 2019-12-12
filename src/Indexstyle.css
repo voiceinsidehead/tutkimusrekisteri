@@ -16,6 +16,10 @@ p {
   text-align: center;
 }
 
+#main {
+  width: 100%;
+}
+
 #person {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
