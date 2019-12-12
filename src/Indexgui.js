@@ -12,11 +12,15 @@ function ModifyPage() {
   let main = document.getElementById("main");
   main.innerHTML = "";
   main.append(createForm());
+  main.setAttribute("style", "align-items:center;");
 }
 
 function ViewPage() {
   main.innerHTML = "";
   topBarContent();
+  //remove centering so topbar is top
+  main.setAttribute("style", "align-items:start;");
+
   //location.replace("View/View.html");
   // Now create and append to iDiv
   /*
@@ -36,5 +40,6 @@ function SetupPage() {
   main.innerHTML = "";
   main.append(createSetupForm());
   getSetup();
+  main.setAttribute("style", "align-items:center;");
   //location.replace("Setup/setup.html")
 }
