@@ -21,7 +21,16 @@ module.exports = { topBarContent, changeColor };
 let personsBool = false;
 let researchesBool = false;
 
+let allResearches = [];
+
+ipcRenderer.on("allResearches", (e, data) => {
+  console.log(data);
+  allResearches = data;
+});
+
 function topBarContent() {
+  ipcRenderer.send("getAllResearches");
+
   let container = document.getElementById("main");
   let div = document.createElement("div");
   div.id = "topBar";
@@ -36,24 +45,24 @@ function topBarContent() {
 
   let perdiv = document.createElement("div");
   perdiv.id = "person";
-
   let p = document.createElement("p");
-  var text = document.createTextNode("Person");
-  p.appendChild(text);
+  p.append("Person");
   perdiv.appendChild(p);
 
   let resdiv = document.createElement("div");
   resdiv.id = "research";
 
   p = document.createElement("p");
-  text = document.createTextNode("Research");
-  p.appendChild(text);
+  p.append("Research");
   resdiv.appendChild(p);
+
+  let fs = document.createElement("fieldset");
 
   let inpdiv = document.createElement("div");
   inpdiv.id = "searchBox";
 
   let input = document.createElement("input");
+  input.className = "input";
   input.id = "searchValue";
 
   input.type = "text";
@@ -63,8 +72,7 @@ function topBarContent() {
   serdiv.id = "search";
 
   p = document.createElement("p");
-  text = document.createTextNode("Search");
-  p.appendChild(text);
+  p.append("Search");
   serdiv.appendChild(p);
 
   inpdiv.appendChild(input);
@@ -75,74 +83,67 @@ function topBarContent() {
   tbl.id = "dataTable";
   tbl.style.visibility = "hidden";
 
-  document.getElementById("topBar").appendChild(buttons);
-  document.getElementById("topBar").appendChild(inpdiv);
-  document.getElementById("topBar").appendChild(serdiv);
+  div.append(buttons, inpdiv, serdiv);
 
-  document.getElementById("main").appendChild(tbl);
+  container.appendChild(tbl);
+  changeColor(perdiv);
+  researchesBool = true;
 
-  document.getElementById("person").addEventListener("click", function() {
-    changeColor("person");
+  perdiv.addEventListener("click", function() {
+    tbl.innerHTML = "";
+    personsBool = false;
+    researchesBool = true;
+    changeColor(perdiv);
+    inpdiv.innerHTML = "";
+    inpdiv.append(input);
   });
 
-  document.getElementById("research").addEventListener("click", function() {
-    changeColor("research");
+  resdiv.addEventListener("click", function() {
+    researchesBool = false;
+    personsBool = true;
+    tbl.innerHTML = "";
+    changeColor(resdiv);
+    inpdiv.innerHTML = "";
+    let select = document.createElement("select");
+    select.id = "researches";
+    const options = allResearches.map(rs => {
+      const element = document.createElement("option");
+      element.value = rs.researchID;
+      element.append(rs.name);
+      return element;
+    });
+    select.append(...options);
+    inpdiv.append(select);
   });
 
-  document.getElementById("search").addEventListener("click", function() {
+  serdiv.addEventListener("click", function() {
     personQuery();
   });
 }
 
 //Function for changing button text and backround color
-function changeColor(variable) {
-  personBool = false;
-
-  var person = document.getElementById("person");
-  var research = document.getElementById("research");
-
-  if (variable == "person") {
-    personsBool = false;
-    researchesBool = true;
-
-    person.style.background = "#708090";
-    person.style.color = "#DADADA";
-
-    research.style.background = "#DADADA";
-    research.style.color = "#708090";
-  }
-
-  if (variable == "research") {
-    personsBool = true;
-    researchesBool = false;
-
-    research.style.background = "#708090";
-    research.style.color = "#DADADA";
-
-    person.style.background = "#DADADA";
-    person.style.color = "#708090";
-  }
+function changeColor(element) {
+  document.getElementById("person").removeAttribute("style");
+  document.getElementById("research").removeAttribute("style");
+  element.style.background = "#708090";
+  element.style.color = "#DADADA";
 }
 
 function personQuery() {
-  let searchFor = document.getElementById("searchValue").value;
-
   if (researchesBool) {
-    ipcRenderer.send("idNumber", searchFor);
+    ipcRenderer.send("idNumber", document.getElementById("searchValue").value);
     ipcRenderer.on("researches", function(event, arg) {
       tableData(arg, "researches");
     });
   }
 
   if (personsBool) {
-    tableData([], "persons");
-    /*    Needs main.js ipcRenderer chanel/function for pulling up the data.
-    ipcRenderer.send("research", searchFor);
+    // tableData([], "persons");
+    ipcRenderer.send("research", document.getElementById("researches").value);
     ipcRenderer.on("researchPeople", function(event, arg) {
       console.log(arg);
-      tableData(arg);
+      tableData(arg, "persons");
     });
-    */
   }
 }
 
@@ -156,11 +157,8 @@ function tableData(array, tableName) {
     table.deleteRow(i);
   }
 
-  console.log(tableName, array.length);
-
   //Table that is drawn when query returned values for all the researches where person has been.
   if (tableName == "researches" && array.length > 0) {
-    console.log("skiaa");
     let header = table.createTHead();
     var row = header.insertRow(0);
 

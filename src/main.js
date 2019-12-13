@@ -10,7 +10,7 @@ env.config();
 const Database = require(path.resolve(".", "models"));
 
 let db = new Database();
-db.connect().then(() => db.sequelize.sync({ force: true }));
+db.connect().then(() => db.sequelize.sync());
 ///FORCING DROPS THE DATABASE ! FOR TESTING PURPOSES ONLY ! MUST BE REMOVED !
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -145,7 +145,13 @@ ipcMain.on("research", async (e, id) => {
   let people = await research.getPeople({
     joinTableAttributes: ["identificationHash"]
   });
-  e.reply("researchPeople", people);
+  const data = people.map(person => {
+    return {
+      identificationNumber: person.identificationNumber,
+      identificationHash: person.ResearchPerson.identificationHash
+    };
+  });
+  e.reply("researchPeople", data);
 });
 
 ipcMain.on("getDBSetup", e => {

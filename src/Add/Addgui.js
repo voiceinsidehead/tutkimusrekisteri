@@ -59,7 +59,7 @@ function createForm() {
     createControlGroup(createTextInput("Permission", "permission")),
     createControlGroup(createTextInput("Archive ID", "archiveID")),
     createControlGroup(createTextInput("Research Manager", "researchManager")),
-    createControlGroup([...createTextInput("CSV File", "file"), fileButton]),
+    createControlGroup([...createTextInput("CSV File", "file"), fileButton]), // [ lbl, input, fileButton ]
     controls
   );
   wrapper.append(header, form);
