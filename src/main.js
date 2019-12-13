@@ -95,7 +95,7 @@ ipcMain.on("addResearch", async (e, data) => {
   let ids = readCsv(data.file);
   delete data.file;
   let rs = db.Research.create(data);
-  await Promise.all([rs, ids]).then(([research, data]) => {
+  Promise.all([rs, ids]).then(([research, data]) => {
     console.log(`RESEARCH ID: ${research.researchID}`);
     data.forEach(async value => {
       let [person, _] = await db.Person.findOrCreate({
@@ -132,8 +132,11 @@ ipcMain.on("idNumber", async (e, id) => {
 });
 
 ipcMain.on("getAllResearches", async e => {
-  let researches = await db.Research.findAll();
-  e.reply("allResearches", researches);
+  const researches = await db.Research.findAll();
+  data = researches.map(rs => {
+    return { name: rs.name, researchID: rs.researchID };
+  });
+  e.reply("allResearches", data);
 });
 
 // Finds all people belonging to research

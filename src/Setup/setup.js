@@ -34,6 +34,10 @@ function submit(e) {
 }
 
 function createSetupForm() {
+  let wrapper = document.createElement("div");
+  let header = document.createElement("h2");
+  header.append("Database Settings");
+
   let form = document.createElement("form");
   form.id = "formi";
   form.className = "pure-form pure-form-aligned";
@@ -78,11 +82,11 @@ function createSetupForm() {
   password.setAttribute("type", "password");
 
   submit.setAttribute("type", "button");
-  submit.append("Submit");
+  submit.append("Update Settings");
   submit.addEventListener("click", e => {
     submit(form);
   });
-  submit.className = "pure-button";
+  submit.className = "pure-button pure-button-primary";
 
   divDataBaseName.appendChild(labelDataBaseName);
   divDataBaseName.appendChild(databaseName);
@@ -100,7 +104,9 @@ function createSetupForm() {
   fs.appendChild(divPassword);
   fs.appendChild(divSubmit);
 
-  return form;
+  wrapper.append(header, form);
+
+  return wrapper;
 }
 
 module.exports = { createSetupForm, getSetup };

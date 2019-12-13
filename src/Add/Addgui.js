@@ -29,6 +29,9 @@ function addFile(form) {
 }
 
 function createForm() {
+  let wrapper = document.createElement("div");
+  let header = document.createElement("h2");
+  header.append("Add new research");
   let form = document.createElement("form");
   form.className = "pure-form pure-form-aligned";
   let fs = document.createElement("fieldset");
@@ -43,7 +46,8 @@ function createForm() {
   let controls = document.createElement("div");
   controls.className = "pure-controls";
   let submitButton = document.createElement("button");
-  submitButton.className = "pure-button";
+  submitButton.id = "add-research-button";
+  submitButton.className = "pure-button pure-button-primary";
   submitButton.setAttribute("type", "button");
   submitButton.append("Add Research");
   submitButton.addEventListener("click", e => {
@@ -58,7 +62,8 @@ function createForm() {
     createControlGroup([...createTextInput("CSV File", "file"), fileButton]),
     controls
   );
-  return form;
+  wrapper.append(header, form);
+  return wrapper;
 }
 
 function createControlGroup(controls) {

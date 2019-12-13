@@ -24,15 +24,15 @@ function ViewPage() {
   //location.replace("View/View.html");
   // Now create and append to iDiv
   /*
-	let div = document.createElement("div"); 
+	let div = document.createElement("div");
 	div.id = "topBar";
 
-	let p = document.createElement("p")  
+	let p = document.createElement("p")
 	let text = document.createTextNode("person");         // Create a text node
 	p.appendChild(text);
 
 	div.appendChild(p);                              // Append the text to <li>
-	document.getElementById("topBar").appendChild(div); 
+	document.getElementById("topBar").appendChild(div);
 	*/
 }
 
@@ -41,5 +41,4 @@ function SetupPage() {
   main.append(createSetupForm());
   getSetup();
   main.setAttribute("style", "align-items:center;");
-  //location.replace("Setup/setup.html")
 }
