@@ -18,22 +18,7 @@ function ModifyPage() {
 function ViewPage() {
   main.innerHTML = "";
   topBarContent();
-  //remove centering so topbar is top
   main.setAttribute("style", "align-items:start;");
-
-  //location.replace("View/View.html");
-  // Now create and append to iDiv
-  /*
-	let div = document.createElement("div"); 
-	div.id = "topBar";
-
-	let p = document.createElement("p")  
-	let text = document.createTextNode("person");         // Create a text node
-	p.appendChild(text);
-
-	div.appendChild(p);                              // Append the text to <li>
-	document.getElementById("topBar").appendChild(div); 
-	*/
 }
 
 function SetupPage() {
