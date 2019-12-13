@@ -167,11 +167,11 @@ async function createMarkdown(id, data) {
 function researchesToString(data) {
   return data
     .map((rs, i) => {
-      `### ${i}. ${rs.name}
-    - ${rs.permission}
-    - ${rs.archiveID}
-    - ${rs.researchManager}
-    `;
+      return `
+### ${i + 1}. ${rs.name}
+- ${rs.permission}
+- ${rs.archiveID}
+- ${rs.researchManager}`;
     })
     .join("\n");
 }
