@@ -12,20 +12,29 @@ p {
   margin-left: 0px;
 }
 
-table {
-  font-family: arial, sans-serif;
-  border-spacing: 100px;
-  border-collapse: collapse;
-}
-
 td,
-th {
+th,
+tr {
+  padding: 5px;
   border: 1px solid #dddddd;
   text-align: center;
 }
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+#dataTable {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  top: 15%;
+  left: 32.5%;
+  width: 35%;
+  /*font-family: arial, sans-serif;*/
+  border-collapse: collapse;
+  transform: scale(1);
+  border: 1px solid black;
 }
 
 .Txt {
@@ -38,6 +47,15 @@ tr:nth-child(even) {
   align-items: center;
   justify-content: center;
   zoom: 1.2;
+}
+
+#contentdiv {
+  align-content: center;
+  position: relative;
+  width: 100%;
+  display: flex;
+  position: relative;
+  justify-content: center;
 }
 
 #person {
@@ -235,19 +253,6 @@ tr:nth-child(even) {
 .sidebutton {
   margin: 0px;
   padding: 18% 23% 18% 23%;
-}
-
-#dataTable {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  top: 15%;
-  left: 32.5%;
-  width: 35%;
-  /*font-family: arial, sans-serif;*/
-  border-collapse: collapse;
-  transform: scale(1);
-  border: 1px solid black;
 }
 
 #View.View {

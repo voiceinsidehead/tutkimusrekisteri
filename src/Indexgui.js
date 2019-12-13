@@ -36,6 +36,7 @@ function ViewPage() {
   topBarContent();
   buttonSelected("view_Butt", "view");
   main.setAttribute("style", "align-items:start;");
+  main.setAttribute("style", "flex-direction: column;");
 }
 
 function SetupPage() {
