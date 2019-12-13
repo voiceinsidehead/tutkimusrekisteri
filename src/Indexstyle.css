@@ -12,6 +12,22 @@ p {
   margin-left: 0px;
 }
 
+table {
+  font-family: arial, sans-serif;
+  border-spacing: 100px;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
 .Txt {
   text-align: center;
 }
@@ -143,6 +159,7 @@ p {
 }
 
 #add {
+  background-color: #dadada;
   display: flex;
   width: 100%;
   height: 13%;
@@ -186,29 +203,51 @@ p {
   margin-bottom: 0px;
 }
 
-#research:hover,
-#person:hover {
+#add:hover,
+#view:hover,
+#setup:hover {
   background-color: #708090;
   color: #dadada;
+}
+
+#view_Butt {
+  filter: invert(57%) sepia(7%) saturate(1079%) hue-rotate(169deg)
+    brightness(84%) contrast(83%);
+}
+
+#add_Butt {
+  filter: invert(57%) sepia(7%) saturate(1079%) hue-rotate(169deg)
+    brightness(84%) contrast(83%);
+}
+
+#setup_Butt {
+  filter: invert(57%) sepia(7%) saturate(1079%) hue-rotate(169deg)
+    brightness(84%) contrast(83%);
+}
+
+#view_Butt:hover,
+#add_Butt:hover,
+#setup_Butt:hover {
+  filter: invert(100%) sepia(0%) saturate(2923%) hue-rotate(24deg)
+    brightness(92%) contrast(86%);
 }
 
 .sidebutton {
   margin: 0px;
   padding: 18% 23% 18% 23%;
-  filter: invert(57%) sepia(7%) saturate(1079%) hue-rotate(169deg)
-    brightness(84%) contrast(83%);
 }
 
-.sidebutton:hover {
-  filter: invert(89%) sepia(0%) saturate(0%) hue-rotate(75deg) brightness(98%)
-    contrast(90%);
-}
-
-#setup:hover,
-#add:hover,
-#view:hover {
-  background-color: #708090;
-  color: #dadada;
+#dataTable {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  top: 15%;
+  left: 32.5%;
+  width: 35%;
+  /*font-family: arial, sans-serif;*/
+  border-collapse: collapse;
+  transform: scale(1);
+  border: 1px solid black;
 }
 
 #View.View {

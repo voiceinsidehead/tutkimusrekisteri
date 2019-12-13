@@ -1,6 +1,6 @@
 const { dialog } = require("electron").remote;
 const { ipcRenderer } = require("electron");
-module.exports = { topBarContent };
+module.exports = { topBarContent, changeColor };
 
 /*window.onload = function() {
   dragElement(document.getElementById("dataTable"));
@@ -8,12 +8,6 @@ module.exports = { topBarContent };
 
   Tab_Selected = document.getElementById("tab_Sel");
 
-  document.getElementById("person").addEventListener("click", function() {
-    changeColor("person");
-  });
-  document.getElementById("research").addEventListener("click", function() {
-    changeColor("research");
-  });
   document.getElementById("search").addEventListener("click", function() {
     personQuery();
   });
@@ -77,9 +71,27 @@ function topBarContent() {
   buttons.appendChild(perdiv);
   buttons.appendChild(resdiv);
 
+  tbl = document.createElement("table");
+  tbl.id = "dataTable";
+  tbl.style.visibility = "hidden";
+
   document.getElementById("topBar").appendChild(buttons);
   document.getElementById("topBar").appendChild(inpdiv);
   document.getElementById("topBar").appendChild(serdiv);
+
+  document.getElementById("main").appendChild(tbl);
+
+  document.getElementById("person").addEventListener("click", function() {
+    changeColor("person");
+  });
+
+  document.getElementById("research").addEventListener("click", function() {
+    changeColor("research");
+  });
+
+  document.getElementById("search").addEventListener("click", function() {
+    personQuery();
+  });
 }
 
 //Function for changing button text and backround color
@@ -144,8 +156,11 @@ function tableData(array, tableName) {
     table.deleteRow(i);
   }
 
+  console.log(tableName, array.length);
+
   //Table that is drawn when query returned values for all the researches where person has been.
-  if (tableName == "researches" && array.length < 0) {
+  if (tableName == "researches" && array.length > 0) {
+    console.log("skiaa");
     let header = table.createTHead();
     var row = header.insertRow(0);
 
