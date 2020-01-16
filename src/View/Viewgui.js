@@ -191,6 +191,10 @@ function tableData(array, tableName) {
       let saveBtn = document.createElement("button");
       saveBtn.id = "saveBtn";
       saveBtn.innerHTML = "Save";
+
+      saveBtn.addEventListener("click", function() {
+        saveFile();
+      });
       contentdiv.appendChild(saveBtn);
     }
   }

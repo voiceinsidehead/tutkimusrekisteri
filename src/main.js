@@ -159,7 +159,7 @@ ipcMain.on("getDBSetup", e => {
 });
 
 async function createMarkdown(id, data) {
-  const str = `## RESEARCHS for ID: ${id}
+  const str = `## Researches for identification number: ${id}
   ${researchesToString(data)}`;
   await writeFile(path.join(__dirname, "tmp.md"), str);
 }
@@ -168,10 +168,10 @@ function researchesToString(data) {
   return data
     .map((rs, i) => {
       return `
-### ${i + 1}. ${rs.name}
-- ${rs.permission}
-- ${rs.archiveID}
-- ${rs.researchManager}`;
+### ${i + 1}. Research name: ${rs.name}
+- Permission number: ${rs.permission}
+- Archive Id: ${rs.archiveID}
+- Research Manager: ${rs.researchManager}`;
     })
     .join("\n");
 }
