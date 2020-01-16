@@ -306,3 +306,22 @@ tr:nth-child(even) {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
+#saveBtn {
+  height: 14%;
+  margin-top: 60%;
+  margin-left: 60%;
+  width: inherit;
+
+  clear: both;
+  -webkit-box-sizing: border-box;
+  border-bottom: 2px solid #708090;
+  border-right: 2px solid #708090;
+  border-top: 2px solid #708090;
+  border-left: 2px solid #708090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #dadada;
+  color: #708090;
+}

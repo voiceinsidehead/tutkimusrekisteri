@@ -187,6 +187,12 @@ function tableData(array, tableName) {
       ArchiveID.innerHTML = array[i]["archiveID"];
       ResearchManager.innerHTML = array[i]["researchManager"];
     }
+    if (document.getElementById("saveBtn") == null) {
+      let saveBtn = document.createElement("button");
+      saveBtn.id = "saveBtn";
+      saveBtn.innerHTML = "Save";
+      contentdiv.appendChild(saveBtn);
+    }
   }
 
   if (array.length == 0) {
