@@ -134,9 +134,22 @@ ipcMain.on("idNumber", async (e, id) => {
 ipcMain.on("getAllResearches", async e => {
   const researches = await db.Research.findAll();
   data = researches.map(rs => {
-    return { name: rs.name, researchID: rs.researchID };
+    return {
+      name: rs.name,
+      researchManager: rs.researchManager,
+      researchID: rs.researchID
+    };
   });
   e.reply("allResearches", data);
+});
+
+ipcMain.on("exportCSV", async (e, rsID) => {
+  const data = db.ResearchPerson.findAll({
+    where: {
+      researchID: rsID
+    }
+  });
+  console.log("DAtaa!", data);
 });
 
 // Finds all people belonging to research
