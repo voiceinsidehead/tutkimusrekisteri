@@ -143,13 +143,20 @@ ipcMain.on("getAllResearches", async e => {
   e.reply("allResearches", data);
 });
 
-ipcMain.on("exportCSV", async (e, rsID) => {
-  const data = db.ResearchPerson.findAll({
+ipcMain.on("exportCSV", async (e, filepath, rsID) => {
+  const rsPersons = await db.ResearchPerson.findAll({
     where: {
       researchID: rsID
     }
   });
-  console.log("DAtaa!", data);
+  const data = rsPersons.map(rsp => {
+    return {
+      idNumber: rsp.identificationNumber,
+      hash: rsp.identificationHash
+    };
+  });
+
+  writeCsv(filepath, data);
 });
 
 // Finds all people belonging to research
@@ -187,6 +194,20 @@ function researchesToString(data) {
 - Research Manager: ${rs.researchManager}`;
     })
     .join("\n");
+}
+
+async function writeCsv(filepath, data) {
+  const createWriter = require("csv-writer").createObjectCsvWriter;
+  const csvWriter = createWriter({
+    path: filepath,
+    header: [{ id: "idNumber", title: "HETU" }, { id: "hash", title: "HASH" }]
+  });
+  try {
+    await csvWriter.writeRecords(data);
+  } catch (error) {
+    console.log("CSV Not Written.");
+  }
+  console.log("CSV Written");
 }
 
 async function readCsv(filepath) {
