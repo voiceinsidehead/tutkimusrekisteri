@@ -308,10 +308,11 @@ tr:nth-child(even) {
 }
 
 #saveBtn {
-  height: 14%;
-  margin-top: 60%;
-  margin-left: auto;
-  width: 25%;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  height: 13%;
+  width: 26%;
 
   clear: both;
   -webkit-box-sizing: border-box;

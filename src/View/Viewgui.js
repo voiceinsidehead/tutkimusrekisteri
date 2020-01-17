@@ -98,6 +98,11 @@ function topBarContent() {
     changeColor(perdiv);
     inpdiv.innerHTML = "";
     inpdiv.append(input);
+
+    let saveBtn = document.getElementById("saveBtn");
+    if (saveBtn != null) {
+      saveBtn.remove();
+    }
   });
 
   resdiv.addEventListener("click", function() {
@@ -116,6 +121,11 @@ function topBarContent() {
     });
     select.append(...options);
     inpdiv.append(select);
+
+    let saveBtn = document.getElementById("saveBtn");
+    if (saveBtn != null) {
+      saveBtn.remove();
+    }
   });
 
   serdiv.addEventListener("click", function() {
@@ -187,6 +197,7 @@ function tableData(array, tableName) {
       ArchiveID.innerHTML = array[i]["archiveID"];
       ResearchManager.innerHTML = array[i]["researchManager"];
     }
+
     if (document.getElementById("saveBtn") == null) {
       let saveBtn = document.createElement("button");
       saveBtn.id = "saveBtn";
