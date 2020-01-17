@@ -15,6 +15,12 @@ ipcRenderer.on("allResearches", (e, data) => {
 function topBarContent() {
   ipcRenderer.send("getAllResearches");
 
+  /* ipcRenderer.send(
+    "exportCSV",
+    "/Users/joonas/Desktop/Untitled.csv",
+    "984a8622-9862-4fcf-a56f-597625ce6e20"
+  ); */
+
   let container = document.getElementById("main");
   let div = document.createElement("div");
   div.id = "topBar";
