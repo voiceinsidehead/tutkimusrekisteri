@@ -1,6 +1,6 @@
 const { dialog } = require("electron").remote;
 const { ipcRenderer } = require("electron");
-module.exports = { topBarContent, changeColor };
+module.exports = { topBarContent };
 
 let personsBool = false;
 let researchesBool = false;
@@ -40,7 +40,6 @@ function topBarContent() {
 
   let resdiv = document.createElement("div");
   resdiv.id = "research";
-
   p = document.createElement("p");
   p.append("Research");
   resdiv.appendChild(p);
@@ -50,12 +49,12 @@ function topBarContent() {
   let inpdiv = document.createElement("div");
   inpdiv.id = "searchBox";
 
-  let input = document.createElement("input");
-  input.className = "input";
-  input.id = "searchValue";
+  //let input = document.createElement("input");
+  //input.className = "input";
+  //input.id = "searchValue";
 
-  input.type = "text";
-  input.value = "";
+  //input.type = "text";
+  //input.value = "";
 
   let serdiv = document.createElement("div");
   serdiv.id = "search";
@@ -64,7 +63,7 @@ function topBarContent() {
   p.append("Search");
   serdiv.appendChild(p);
 
-  inpdiv.appendChild(input);
+  //inpdiv.appendChild(input);
   //buttons.appendChild(perdiv);
   buttons.appendChild(resdiv);
 
@@ -110,28 +109,28 @@ function topBarContent() {
     }
   });*/
 
-  resdiv.addEventListener("click", function() {
-    researchesBool = false;
-    personsBool = true;
-    tbl.innerHTML = "";
-    changeColor(resdiv);
-    inpdiv.innerHTML = "";
-    let select = document.createElement("select");
-    select.id = "researches";
-    const options = allResearches.map(rs => {
-      const element = document.createElement("option");
-      element.value = rs.researchID;
-      element.append(rs.name);
-      return element;
-    });
-    select.append(...options);
-    inpdiv.append(select);
-
-    let saveBtn = document.getElementById("saveBtn");
-    if (saveBtn != null) {
-      saveBtn.remove();
-    }
+  //resdiv.addEventListener("click", function() {
+  //researchesBool = false;
+  //personsBool = true;
+  //tbl.innerHTML = "";
+  //changeColor(resdiv);
+  //inpdiv.innerHTML = "";
+  let select = document.createElement("select");
+  select.id = "researches";
+  const options = allResearches.map(rs => {
+    const element = document.createElement("option");
+    element.value = rs.researchID;
+    element.append(rs.name);
+    return element;
   });
+  select.append(...options);
+  inpdiv.append(select);
+
+  //let saveBtn = document.getElementById("saveBtn");
+  //if (saveBtn != null) {
+  //  saveBtn.remove();
+  //}
+  //});
 
   serdiv.addEventListener("click", function() {
     personQuery();
@@ -139,12 +138,12 @@ function topBarContent() {
 }
 
 //Function for changing button text and backround color
-function changeColor(element) {
+/*function changeColor(element) {
   document.getElementById("person").removeAttribute("style");
   document.getElementById("research").removeAttribute("style");
   element.style.background = "#708090";
   element.style.color = "#DADADA";
-}
+}*/
 
 function personQuery() {
   if (researchesBool) {
