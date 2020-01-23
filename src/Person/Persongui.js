@@ -1,6 +1,6 @@
 const { dialog } = require("electron").remote;
 const { ipcRenderer } = require("electron");
-module.exports = { topBarContent, changeColor };
+module.exports = { PersonContent };
 
 let personsBool = false;
 let researchesBool = false;
@@ -12,7 +12,7 @@ ipcRenderer.on("allResearches", (e, data) => {
   allResearches = data;
 });
 
-function topBarContent() {
+function PersonContent() {
   ipcRenderer.send("getAllResearches");
   /* ipcRenderer.send(
     "exportCSV",
@@ -32,18 +32,17 @@ function topBarContent() {
   buttons.style.width = "23%";
   buttons.style.height = "100%";
 
-  /*let perdiv = document.createElement("div");
+  let perdiv = document.createElement("div");
   perdiv.id = "person";
   let p = document.createElement("p");
   p.append("Person");
-  perdiv.appendChild(p);*/
+  perdiv.appendChild(p);
 
-  let resdiv = document.createElement("div");
+  /*let resdiv = document.createElement("div");
   resdiv.id = "research";
-
   p = document.createElement("p");
   p.append("Research");
-  resdiv.appendChild(p);
+  resdiv.appendChild(p);*/
 
   let fs = document.createElement("fieldset");
 
@@ -65,8 +64,8 @@ function topBarContent() {
   serdiv.appendChild(p);
 
   inpdiv.appendChild(input);
-  //buttons.appendChild(perdiv);
-  buttons.appendChild(resdiv);
+  buttons.appendChild(perdiv);
+  //buttons.appendChild(resdiv);
 
   contentdiv = document.createElement("div");
   contentdiv.id = "contentdiv";
@@ -96,11 +95,11 @@ function topBarContent() {
   //changeColor(perdiv);
   researchesBool = true;
 
-  /*perdiv.addEventListener("click", function() {
+  perdiv.addEventListener("click", function() {
     tbl.innerHTML = "";
     personsBool = false;
     researchesBool = true;
-    changeColor(perdiv);
+    //changeColor(perdiv);
     inpdiv.innerHTML = "";
     inpdiv.append(input);
 
@@ -108,9 +107,9 @@ function topBarContent() {
     if (saveBtn != null) {
       saveBtn.remove();
     }
-  });*/
+  });
 
-  resdiv.addEventListener("click", function() {
+  /*resdiv.addEventListener("click", function() {
     researchesBool = false;
     personsBool = true;
     tbl.innerHTML = "";
@@ -131,7 +130,7 @@ function topBarContent() {
     if (saveBtn != null) {
       saveBtn.remove();
     }
-  });
+  });*/
 
   serdiv.addEventListener("click", function() {
     personQuery();
@@ -139,12 +138,12 @@ function topBarContent() {
 }
 
 //Function for changing button text and backround color
-function changeColor(element) {
+/*function changeColor(element) {
   document.getElementById("person").removeAttribute("style");
-  document.getElementById("research").removeAttribute("style");
+  //document.getElementById("research").removeAttribute("style");
   element.style.background = "#708090";
   element.style.color = "#DADADA";
-}
+}*/
 
 function personQuery() {
   if (researchesBool) {

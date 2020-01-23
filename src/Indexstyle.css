@@ -58,7 +58,7 @@ tr:nth-child(even) {
   justify-content: center;
 }
 
-#person {
+#personButton {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -74,7 +74,8 @@ tr:nth-child(even) {
   color: #708090;
 }
 
-#research {
+#research,
+#person {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -86,7 +87,7 @@ tr:nth-child(even) {
   justify-content: center;
   position: relative;
   line-height: 50%;
-  height: 50%;
+  height: 100%;
   width: 100%;
   background-color: #dadada;
   color: #708090;
@@ -212,7 +213,7 @@ tr:nth-child(even) {
 #add:hover,
 #view:hover,
 #setup:hover,
-#person:hover {
+#personButton:hover {
   background-color: #708090;
   color: #dadada;
 }
