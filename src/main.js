@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
-const { writeFile } = require("fs").promises;
+const { writeFile, unlink } = require("fs").promises;
 const env = require("dotenv");
 const mdpdf = require("mdpdf");
 
@@ -79,6 +79,7 @@ ipcMain.on("saveFilePath", (e, fpath) => {
     .convert(options)
     .then(pdfPath => {
       console.log("PDF Path:", pdfPath);
+      unlink(path.join(__dirname, "tmp.md"));
     })
     .catch(err => {
       console.error(err);
