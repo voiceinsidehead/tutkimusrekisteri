@@ -62,14 +62,13 @@ tr:nth-child(even) {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  border-right: 2px solid #708090;
-  border-top: 2px solid #708090;
+  border-bottom: 2px solid #708090;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   line-height: 50%;
-  height: 50%;
+  height: 13%;
   width: 100%;
   background-color: #dadada;
   color: #708090;
@@ -212,7 +211,8 @@ tr:nth-child(even) {
 
 #add:hover,
 #view:hover,
-#setup:hover {
+#setup:hover,
+#person:hover {
   background-color: #708090;
   color: #dadada;
 }
@@ -231,10 +231,15 @@ tr:nth-child(even) {
   filter: invert(57%) sepia(7%) saturate(1079%) hue-rotate(169deg)
     brightness(84%) contrast(83%);
 }
+#person_Butt {
+  filter: invert(57%) sepia(7%) saturate(1079%) hue-rotate(169deg)
+    brightness(84%) contrast(83%);
+}
 
 #view_Butt:hover,
 #add_Butt:hover,
-#setup_Butt:hover {
+#setup_Butt:hover,
+#person_Butt:hover {
   filter: invert(100%) sepia(0%) saturate(2923%) hue-rotate(24deg)
     brightness(92%) contrast(86%);
 }
