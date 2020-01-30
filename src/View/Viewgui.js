@@ -174,32 +174,56 @@ function tableData(array, tableName) {
   }
 
   //Table that is drawn when query returned values for all the researches where person has been.
-  if (tableName == "researches" && array.length > 0) {
+  if ((tableName == "researches" || tableName == "Persons") && array.length > 0) {
     document.getElementById("noResults").style.visibility = "hidden";
-    console.log("skiaa");
     let header = table.createTHead();
     var row = header.insertRow(0);
 
-    var th1 = row.insertCell(0);
-    var th2 = row.insertCell(1);
-    var th3 = row.insertCell(2);
-    var th4 = row.insertCell(3);
+      //Researches
+      if (tableName == "researches") 
+      {
+      var th1 = row.insertCell(0);
+      var th2 = row.insertCell(1);
+      var th3 = row.insertCell(2);
+      var th4 = row.insertCell(3);
 
-    th1.innerHTML = "<b>Name</b>";
-    th2.innerHTML = "<b>Permission</b>";
-    th3.innerHTML = "<b>ArchiveID</b>";
-    th4.innerHTML = "<b>ResearchManager</b>";
+      th1.innerHTML = "<b>Name</b>";
+      th2.innerHTML = "<b>Permission</b>";
+      th3.innerHTML = "<b>ArchiveID</b>";
+      th4.innerHTML = "<b>ResearchManager</b>";
 
-    for (var i = 0; i < array.length; i++) {
-      var row = table.insertRow(i + 1);
-      var Name = row.insertCell(0);
-      var Persmission = row.insertCell(1);
-      var ArchiveID = row.insertCell(2);
-      var ResearchManager = row.insertCell(3);
-      Name.innerHTML = array[i]["name"];
-      Persmission.innerHTML = array[i]["permission"];
-      ArchiveID.innerHTML = array[i]["archiveID"];
-      ResearchManager.innerHTML = array[i]["researchManager"];
+      for (var i = 0; i < array.length; i++) {
+        var row = table.insertRow(i + 1);
+        var Name = row.insertCell(0);
+        var Persmission = row.insertCell(1);
+        var ArchiveID = row.insertCell(2);
+        var ResearchManager = row.insertCell(3);
+        Name.innerHTML = array[i]["name"];
+        Persmission.innerHTML = array[i]["permission"];
+        ArchiveID.innerHTML = array[i]["archiveID"];
+        ResearchManager.innerHTML = array[i]["researchManager"];
+      }
+
+      //Persons
+      if (tableName == "Persons") 
+      {
+      let th1 = row.insertCell(0);
+      let th2 = row.insertCell(1);
+
+      th1.innerHTML = "<b>Research Name</b>"
+      th2.innerHTML = "<b>Research manager</b>"
+
+      for (var i = 0; i < array.length; i++) {
+        var row = table.insertRow(i + 1);
+        var Name = row.insertCell(0);
+        var Persmission = row.insertCell(1);
+        var ArchiveID = row.insertCell(2);
+        var ResearchManager = row.insertCell(3);
+        Name.innerHTML = array[i]["name"];
+        Persmission.innerHTML = array[i]["permission"];
+        ArchiveID.innerHTML = array[i]["archiveID"];
+        ResearchManager.innerHTML = array[i]["researchManager"];
+      }
     }
 
     if (document.getElementById("saveBtn") == null) {
@@ -241,4 +265,4 @@ async function saveFile() {
   let dialogObject = await dialog.showSaveDialog(options);
   let filepath = dialogObject.filePath;
   ipcRenderer.send("saveFilePath", filepath);
-}
+
