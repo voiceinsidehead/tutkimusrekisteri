@@ -1,4 +1,4 @@
-const { topBarContent, listReseaches } = require("./View/Viewgui");
+const { topBarContent, personQuery } = require("./View/Viewgui");
 const { createForm } = require("./Add/Addgui");
 const { createSetupForm, getSetup } = require("./Setup/setup");
 const { PersonContent } = require("./Person/Persongui");
@@ -39,7 +39,6 @@ function ModifyPage() {
 function ViewPage() {
   main.innerHTML = "";
   topBarContent();
-  listReseaches();
   buttonSelected("view_Butt", "view");
   main.setAttribute("style", "align-items:start;");
   main.setAttribute("style", "flex-direction: column;");

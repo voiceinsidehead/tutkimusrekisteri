@@ -1,24 +1,18 @@
 const { dialog } = require("electron").remote;
 const { ipcRenderer } = require("electron");
-module.exports = { PersonContent };
-
-let personsBool = false;
-let researchesBool = false;
-
+module.exports = { PersonContent, personQuery };
+/*
 let allResearches = [];
 
-ipcRenderer.on("allResearches", (e, data) => {
-  console.log(data);
+ipcRenderer.on("allResearches", (e, data) => 
+{
   allResearches = data;
 });
-
+*/
 function PersonContent() {
+  /*
   ipcRenderer.send("getAllResearches");
-  /* ipcRenderer.send(
-    "exportCSV",
-    "/Users/joonas/Desktop/Untitled.csv",
-    "984a8622-9862-4fcf-a56f-597625ce6e20"
-  ); */
+  */
 
   let container = document.getElementById("main");
   let div = document.createElement("div");
@@ -37,12 +31,6 @@ function PersonContent() {
   let p = document.createElement("p");
   p.append("Person");
   perdiv.appendChild(p);
-
-  /*let resdiv = document.createElement("div");
-  resdiv.id = "research";
-  p = document.createElement("p");
-  p.append("Research");
-  resdiv.appendChild(p);*/
 
   let fs = document.createElement("fieldset");
 
@@ -92,14 +80,9 @@ function PersonContent() {
   document.getElementById("main").appendChild(contentdiv);
 
   container.appendChild(tbl);
-  //changeColor(perdiv);
-  researchesBool = true;
 
   perdiv.addEventListener("click", function() {
     tbl.innerHTML = "";
-    personsBool = false;
-    researchesBool = true;
-    //changeColor(perdiv);
     inpdiv.innerHTML = "";
     inpdiv.append(input);
 
@@ -109,124 +92,88 @@ function PersonContent() {
     }
   });
 
-  /*resdiv.addEventListener("click", function() {
-    researchesBool = false;
-    personsBool = true;
-    tbl.innerHTML = "";
-    changeColor(resdiv);
-    inpdiv.innerHTML = "";
-    let select = document.createElement("select");
-    select.id = "researches";
-    const options = allResearches.map(rs => {
-      const element = document.createElement("option");
-      element.value = rs.researchID;
-      element.append(rs.name);
-      return element;
-    });
-    select.append(...options);
-    inpdiv.append(select);
-
-    let saveBtn = document.getElementById("saveBtn");
-    if (saveBtn != null) {
-      saveBtn.remove();
-    }
-  });*/
-
-  serdiv.addEventListener("click", function() {
-    personQuery();
-  });
+  document.getElementById("search").addEventListener("click", personQuery);
 }
 
-//Function for changing button text and backround color
-/*function changeColor(element) {
-  document.getElementById("person").removeAttribute("style");
-  //document.getElementById("research").removeAttribute("style");
-  element.style.background = "#708090";
-  element.style.color = "#DADADA";
-}*/
+// Function to empty the previous table.
+function wipeTable() {
+  // Get the table from page.
+  let table = document.getElementById("dataTable");
 
-function personQuery() {
-  if (researchesBool) {
-    ipcRenderer.send("idNumber", document.getElementById("searchValue").value);
-    ipcRenderer.on("researches", function(event, arg) {
-      tableData(arg, "researches");
-    });
-  }
-
-  if (personsBool) {
-    // tableData([], "persons");
-    ipcRenderer.send("research", document.getElementById("researches").value);
-    ipcRenderer.on("researchPeople", function(event, arg) {
-      console.log(arg);
-      tableData(arg, "persons");
-    });
-  }
-}
-
-//Function for drawing and deleting table
-function tableData(array, tableName) {
-  var table = document.getElementById("dataTable");
-
-  //Wipe the previous table.
+  // Delete heder row.
   table.deleteTHead();
+
+  // Delete data rows.
   for (var i = table.rows.length - 1; i > 0; i--) {
     table.deleteRow(i);
   }
+}
 
-  //Table that is drawn when query returned values for all the researches where person has been.
-  if (tableName == "researches" && array.length > 0) {
-    document.getElementById("noResults").style.visibility = "hidden";
-    console.log("skiaa");
-    let header = table.createTHead();
-    var row = header.insertRow(0);
+// Function that 'draws' table and displays the persons in the research.
+function drawPersonData(array) {
+  // Start by wiping possible previous table.
+  wipeTable();
 
-    var th1 = row.insertCell(0);
-    var th2 = row.insertCell(1);
-    var th3 = row.insertCell(2);
-    var th4 = row.insertCell(3);
+  // Defining the table variable that will be used.
+  let table = document.getElementById("dataTable");
 
-    th1.innerHTML = "<b>Name</b>";
-    th2.innerHTML = "<b>Permission</b>";
-    th3.innerHTML = "<b>ArchiveID</b>";
-    th4.innerHTML = "<b>ResearchManager</b>";
+  // Defining the header row.
+  let header = table.createTHead();
 
-    for (var i = 0; i < array.length; i++) {
-      var row = table.insertRow(i + 1);
-      var Name = row.insertCell(0);
-      var Persmission = row.insertCell(1);
-      var ArchiveID = row.insertCell(2);
-      var ResearchManager = row.insertCell(3);
-      Name.innerHTML = array[i]["name"];
-      Persmission.innerHTML = array[i]["permission"];
-      ArchiveID.innerHTML = array[i]["archiveID"];
-      ResearchManager.innerHTML = array[i]["researchManager"];
-    }
+  // Insert the header row on to the table.
+  var row = header.insertRow(0);
 
-    if (document.getElementById("saveBtn") == null) {
-      let saveBtn = document.createElement("button");
-      saveBtn.id = "saveBtn";
-      saveBtn.innerHTML = "Save";
+  // Creating and defining the columns.
+  let th1 = row.insertCell(0);
+  let th2 = row.insertCell(1);
+  let th3 = row.insertCell(2);
+  let th4 = row.insertCell(3);
 
-      saveBtn.addEventListener("click", function() {
-        saveFile();
-      });
-      contentdiv.appendChild(saveBtn);
-    }
+  // Inserting headers into the table.
+  th1.innerHTML = "<b>Name</b>";
+  th2.innerHTML = "<b>Permission</b>";
+  th3.innerHTML = "<b>ArchiveID</b>";
+  th4.innerHTML = "<b>ResearchManager</b>";
+
+  // Insert data from array into the table.
+  for (var i = 0; i < array.length; i++) {
+    var row = table.insertRow(i + 1);
+    var Name = row.insertCell(0);
+    var Persmission = row.insertCell(1);
+    var ArchiveID = row.insertCell(2);
+    var ResearchManager = row.insertCell(3);
+    Name.innerHTML = array[i]["name"];
+    Persmission.innerHTML = array[i]["permission"];
+    ArchiveID.innerHTML = array[i]["archiveID"];
+    ResearchManager.innerHTML = array[i]["researchManager"];
   }
 
+  // If the received array is empty display !Noresults! message.
   if (array.length == 0) {
     document.getElementById("noResults").style.visibility = "visible";
   }
 
-  //Table that is drawn when query returned people particapated in research.
-  if (tableName == "persons") {
-    //Placeholder code
-    table.deleteTHead();
-    for (var i = table.rows.length - 1; i > 0; i--) {
-      table.deleteRow(i);
-    }
+  if (document.getElementById("saveBtn") == null && array.length != 0) {
+    let saveBtn = document.createElement("button");
+    saveBtn.id = "saveBtn";
+    saveBtn.innerHTML = "Save";
+
+    saveBtn.addEventListener("click", function() {
+      saveFile();
+    });
+
+    contentdiv.appendChild(saveBtn);
   }
+
+  // Make the table visible after inserting data into it.
   table.style.visibility = "visible";
+}
+
+function personQuery() {
+  ipcRenderer.send("idNumber", document.getElementById("searchValue").value);
+  ipcRenderer.on("researches", function(event, arg) {
+    drawPersonData(arg);
+  });
 }
 
 //save file dialog

@@ -1,25 +1,18 @@
 const { dialog } = require("electron").remote;
 const { ipcRenderer } = require("electron");
-module.exports = { topBarContent, listReseaches };
+module.exports = { topBarContent };
 
 let personsBool = false;
 let researchesBool = false;
 
 let allResearches = [];
 
-ipcRenderer.send("getAllResearches");
-
 ipcRenderer.on("allResearches", (e, data) => {
-  console.log(data);
   allResearches = data;
 });
 
 function topBarContent() {
-  /* ipcRenderer.send(
-    "exportCSV",
-    "/Users/joonas/Desktop/Untitled.csv",
-    "984a8622-9862-4fcf-a56f-597625ce6e20"
-  ); */
+  ipcRenderer.send("getAllResearches");
 
   let container = document.getElementById("main");
   let div = document.createElement("div");
@@ -33,12 +26,6 @@ function topBarContent() {
   buttons.style.width = "23%";
   buttons.style.height = "100%";
 
-  /*let perdiv = document.createElement("div");
-  perdiv.id = "person";
-  let p = document.createElement("p");
-  p.append("Person");
-  perdiv.appendChild(p);*/
-
   let resdiv = document.createElement("div");
   resdiv.id = "research";
   p = document.createElement("p");
@@ -50,13 +37,6 @@ function topBarContent() {
   let inpdiv = document.createElement("div");
   inpdiv.id = "searchBox";
 
-  //let input = document.createElement("input");
-  //input.className = "input";
-  //input.id = "searchValue";
-
-  //input.type = "text";
-  //input.value = "";
-
   let serdiv = document.createElement("div");
   serdiv.id = "search";
 
@@ -64,8 +44,6 @@ function topBarContent() {
   p.append("Search");
   serdiv.appendChild(p);
 
-  //inpdiv.appendChild(input);
-  //buttons.appendChild(perdiv);
   buttons.appendChild(resdiv);
 
   contentdiv = document.createElement("div");
@@ -93,29 +71,8 @@ function topBarContent() {
   document.getElementById("main").appendChild(contentdiv);
 
   container.appendChild(tbl);
-  //changeColor(perdiv);
   researchesBool = true;
 
-  /*perdiv.addEventListener("click", function() {
-    tbl.innerHTML = "";
-    personsBool = false;
-    researchesBool = true;
-    changeColor(perdiv);
-    inpdiv.innerHTML = "";
-    inpdiv.append(input);
-
-    let saveBtn = document.getElementById("saveBtn");
-    if (saveBtn != null) {
-      saveBtn.remove();
-    }
-  });*/
-
-  //resdiv.addEventListener("click", function() {
-  //researchesBool = false;
-  //personsBool = true;
-  //tbl.innerHTML = "";
-  //changeColor(resdiv);
-  //inpdiv.innerHTML = "";
   let select = document.createElement("select");
   select.id = "researches";
   const options = allResearches.map(rs => {
@@ -127,139 +84,75 @@ function topBarContent() {
   select.append(...options);
   inpdiv.append(select);
 
-  //let saveBtn = document.getElementById("saveBtn");
-  //if (saveBtn != null) {
-  //  saveBtn.remove();
-  //}
-  //});
-
   serdiv.addEventListener("click", function() {
-    personQuery();
+    drawResearchData(allResearches);
   });
 }
 
-//Function for changing button text and backround color
-/*function changeColor(element) {
-  document.getElementById("person").removeAttribute("style");
-  document.getElementById("research").removeAttribute("style");
-  element.style.background = "#708090";
-  element.style.color = "#DADADA";
-}*/
+// Function to empty the previous table.
+function wipeTable() {
+  // Get the table from page.
+  let table = document.getElementById("dataTable");
 
-function personQuery() {
-  if (researchesBool) {
-    ipcRenderer.send("idNumber", document.getElementById("searchValue").value);
-    ipcRenderer.on("researches", function(event, arg) {
-      tableData(arg, "researches");
-    });
-  }
-
-  if (personsBool) {
-    // tableData([], "persons");
-    ipcRenderer.send("research", document.getElementById("researches").value);
-    ipcRenderer.on("researchPeople", function(event, arg) {
-      console.log(arg);
-      tableData(arg, "persons");
-    });
-  }
-}
-
-//Function for drawing and deleting table
-/*function tableData(array, tableName) {
-  var table = document.getElementById("dataTable");
-
-  //Wipe the previous table.
+  // Delete heder row.
   table.deleteTHead();
+
+  // Delete data rows.
   for (var i = table.rows.length - 1; i > 0; i--) {
     table.deleteRow(i);
   }
+}
 
-  //Table that is drawn when query returned values for all the researches where person has been.
-  if ((tableName == "researches" || tableName == "Persons") && array.length > 0) {
-    document.getElementById("noResults").style.visibility = "hidden";
-    let header = table.createTHead();
-    var row = header.insertRow(0);
+// Function that 'draws' table and displays data from researches that the person has particapated.
+function drawResearchData(array) {
+  // Start by wiping possible previous table.
+  wipeTable();
 
-      //Researches
-      if (tableName == "researches") 
-      {
-      var th1 = row.insertCell(0);
-      var th2 = row.insertCell(1);
-      var th3 = row.insertCell(2);
-      var th4 = row.insertCell(3);
+  // Defining the table variable that will be used.
+  let table = document.getElementById("dataTable");
 
-      th1.innerHTML = "<b>Name</b>";
-      th2.innerHTML = "<b>Permission</b>";
-      th3.innerHTML = "<b>ArchiveID</b>";
-      th4.innerHTML = "<b>ResearchManager</b>";
+  // Defining the header row.
+  let header = table.createTHead();
 
-      for (var i = 0; i < array.length; i++) {
-        var row = table.insertRow(i + 1);
-        var Name = row.insertCell(0);
-        var Persmission = row.insertCell(1);
-        var ArchiveID = row.insertCell(2);
-        var ResearchManager = row.insertCell(3);
-        Name.innerHTML = array[i]["name"];
-        Persmission.innerHTML = array[i]["permission"];
-        ArchiveID.innerHTML = array[i]["archiveID"];
-        ResearchManager.innerHTML = array[i]["researchManager"];
-      }
+  // Insert the header row on to the table.
+  var row = header.insertRow(0);
 
-      //Persons
-      if (tableName == "Persons") 
-      {
-      let th1 = row.insertCell(0);
-      let th2 = row.insertCell(1);
+  //Creating and defining the columns.
+  let th1 = row.insertCell(0);
+  let th2 = row.insertCell(1);
 
-      th1.innerHTML = "<b>Research Name</b>"
-      th2.innerHTML = "<b>Research manager</b>"
+  // Insert headers into the table.
+  th1.innerHTML = "<b>Research name</b>";
+  th2.innerHTML = "<b>Research manager</b>";
 
-      for (var i = 0; i < array.length; i++) {
-        var row = table.insertRow(i + 1);
-        var Name = row.insertCell(0);
-        var Persmission = row.insertCell(1);
-        var ArchiveID = row.insertCell(2);
-        var ResearchManager = row.insertCell(3);
-        Name.innerHTML = array[i]["name"];
-        Persmission.innerHTML = array[i]["permission"];
-        ArchiveID.innerHTML = array[i]["archiveID"];
-        ResearchManager.innerHTML = array[i]["researchManager"];
-      }
-    }
-
-    if (document.getElementById("saveBtn") == null) {
-      let saveBtn = document.createElement("button");
-      saveBtn.id = "saveBtn";
-      saveBtn.innerHTML = "Save";
-
-      saveBtn.addEventListener("click", function() {
-        saveFile();
-      });
-      contentdiv.appendChild(saveBtn);
-    }
+  // Insert data from array into the table.
+  for (var i = 0; i < array.length; i++) {
+    var row = table.insertRow(i + 1);
+    var name = row.insertCell(0);
+    var researchID = row.insertCell(1);
+    name.innerHTML = array[i]["name"];
+    researchID.innerHTML = array[i]["researchID"];
   }
 
+  // If the received array is empty display !Noresults! message.
   if (array.length == 0) {
     document.getElementById("noResults").style.visibility = "visible";
   }
 
-  //Table that is drawn when query returned people particapated in research.
-  if (tableName == "persons") {
-    //Placeholder code
-    table.deleteTHead();
-    for (var i = table.rows.length - 1; i > 0; i--) {
-      table.deleteRow(i);
-    }
-  }
-  table.style.visibility = "visible";
-}*/
+  if (document.getElementById("saveBtn") == null && array.length != 0) {
+    let saveBtn = document.createElement("button");
+    saveBtn.id = "saveBtn";
+    saveBtn.innerHTML = "Save";
 
-function listReseaches() {
-  /*for (let i = 0; i < allResearches.length; i++) {
-    let div = document.createElement("div");
-    div.innerHTML = allResearches[i].name + " " + allResearches[i].researchManager + "<br>";
-    main.appendChild(div);
-  }*/
+    saveBtn.addEventListener("click", function() {
+      saveFile();
+    });
+
+    contentdiv.appendChild(saveBtn);
+  }
+
+  // Make the table visible after inserting data into it.
+  table.style.visibility = "visible";
 }
 
 //save file dialog
@@ -271,7 +164,8 @@ async function saveFile() {
     buttonLabel: "Save As PDF",
     filters: [{ name: "PDF", extensions: ["pdf"] }]
   };
+
   let dialogObject = await dialog.showSaveDialog(options);
   let filepath = dialogObject.filePath;
   ipcRenderer.send("saveFilePath", filepath);
-
+}
