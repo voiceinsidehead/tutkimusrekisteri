@@ -1,11 +1,13 @@
 const { dialog } = require("electron").remote;
 const { ipcRenderer } = require("electron");
-module.exports = { topBarContent };
+module.exports = { topBarContent, listReseaches };
 
 let personsBool = false;
 let researchesBool = false;
 
 let allResearches = [];
+
+ipcRenderer.send("getAllResearches");
 
 ipcRenderer.on("allResearches", (e, data) => {
   console.log(data);
@@ -13,7 +15,6 @@ ipcRenderer.on("allResearches", (e, data) => {
 });
 
 function topBarContent() {
-  ipcRenderer.send("getAllResearches");
   /* ipcRenderer.send(
     "exportCSV",
     "/Users/joonas/Desktop/Untitled.csv",
@@ -164,7 +165,7 @@ function personQuery() {
 }
 
 //Function for drawing and deleting table
-function tableData(array, tableName) {
+/*function tableData(array, tableName) {
   var table = document.getElementById("dataTable");
 
   //Wipe the previous table.
@@ -251,6 +252,14 @@ function tableData(array, tableName) {
     }
   }
   table.style.visibility = "visible";
+}*/
+
+function listReseaches() {
+  /*for (let i = 0; i < allResearches.length; i++) {
+    let div = document.createElement("div");
+    div.innerHTML = allResearches[i].name + " " + allResearches[i].researchManager + "<br>";
+    main.appendChild(div);
+  }*/
 }
 
 //save file dialog
