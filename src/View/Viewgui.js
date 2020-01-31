@@ -125,13 +125,15 @@ function drawResearchData(array) {
   th1.innerHTML = "<b>Research name</b>";
   th2.innerHTML = "<b>Research manager</b>";
 
+  console.log(array);
+
   // Insert data from array into the table.
   for (var i = 0; i < array.length; i++) {
-    var row = table.insertRow(i + 1);
-    var name = row.insertCell(0);
-    var researchID = row.insertCell(1);
+    let row = table.insertRow(i + 1);
+    let name = row.insertCell(0);
+    var researchManager = row.insertCell(1);
     name.innerHTML = array[i]["name"];
-    researchID.innerHTML = array[i]["researchID"];
+    researchManager.innerHTML = array[i]["researchManager"];
   }
 
   // If the received array is empty display !Noresults! message.
