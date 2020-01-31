@@ -125,8 +125,6 @@ function drawResearchData(array) {
   th1.innerHTML = "<b>Research name</b>";
   th2.innerHTML = "<b>Research manager</b>";
 
-  console.log(array);
-
   // Insert data from array into the table.
   for (var i = 0; i < array.length; i++) {
     let row = table.insertRow(i + 1);
