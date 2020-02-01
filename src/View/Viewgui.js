@@ -70,19 +70,8 @@ function topBarContent() {
   document.getElementById("topBar").appendChild(serdiv);
   document.getElementById("main").appendChild(contentdiv);
 
-  container.appendChild(tbl);
+  contentdiv.appendChild(tbl);
   researchesBool = true;
-
-  let select = document.createElement("select");
-  select.id = "researches";
-  const options = allResearches.map(rs => {
-    const element = document.createElement("option");
-    element.value = rs.researchID;
-    element.append(rs.name);
-    return element;
-  });
-  select.append(...options);
-  inpdiv.append(select);
 
   serdiv.addEventListener("click", function() {
     drawResearchData(allResearches);
@@ -120,18 +109,34 @@ function drawResearchData(array) {
   //Creating and defining the columns.
   let th1 = row.insertCell(0);
   let th2 = row.insertCell(1);
+  let th3 = row.insertCell(2);
 
   // Insert headers into the table.
   th1.innerHTML = "<b>Research name</b>";
   th2.innerHTML = "<b>Research manager</b>";
+  th3.innerHTML = "<b>Save CSV File</b>";
 
   // Insert data from array into the table.
   for (var i = 0; i < array.length; i++) {
     let row = table.insertRow(i + 1);
     let name = row.insertCell(0);
-    var researchManager = row.insertCell(1);
+    let researchManager = row.insertCell(1);
+    let saveCSVbutton = row.insertCell(2);
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Save";
+    btn.id = array[i]["researchID"];
+
+    btn.addEventListener("click", () => {
+      saveFile(btn.id);
+    });
+
+    btn.classList.add("pure-button");
+    btn.classList.add("pure-button-primary");
+
     name.innerHTML = array[i]["name"];
     researchManager.innerHTML = array[i]["researchManager"];
+    saveCSVbutton.appendChild(btn);
   }
 
   // If the received array is empty display !Noresults! message.
@@ -139,33 +144,21 @@ function drawResearchData(array) {
     document.getElementById("noResults").style.visibility = "visible";
   }
 
-  if (document.getElementById("saveBtn") == null && array.length != 0) {
-    let saveBtn = document.createElement("button");
-    saveBtn.id = "saveBtn";
-    saveBtn.innerHTML = "Save";
-
-    saveBtn.addEventListener("click", function() {
-      saveFile();
-    });
-
-    contentdiv.appendChild(saveBtn);
-  }
-
   // Make the table visible after inserting data into it.
   table.style.visibility = "visible";
 }
 
 //save file dialog
-async function saveFile() {
+async function saveFile(rsID) {
   let options = {
     title: "Save file",
     //checks the users platform
-    defaultPath: process.platform == "linux" ? ".pdf" : "",
-    buttonLabel: "Save As PDF",
-    filters: [{ name: "PDF", extensions: ["pdf"] }]
+    defaultPath: process.platform == "linux" ? ".csv" : "",
+    buttonLabel: "Save As CSV",
+    filters: [{ name: "CSV", extensions: ["csv"] }]
   };
 
   let dialogObject = await dialog.showSaveDialog(options);
   let filepath = dialogObject.filePath;
-  ipcRenderer.send("saveFilePath", filepath);
+  ipcRenderer.send("exportCSV", filepath, rsID);
 }
