@@ -4,6 +4,7 @@ const { createSetupForm, getSetup } = require("./Setup/setup");
 const { PersonContent } = require("./Person/Persongui");
 
 window.onload = function() {
+  ModifyPage();
   document.getElementById("view").addEventListener("click", ViewPage);
   document.getElementById("add").addEventListener("click", ModifyPage);
   document.getElementById("setup").addEventListener("click", SetupPage);
