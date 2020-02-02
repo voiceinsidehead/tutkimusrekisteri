@@ -99,6 +99,7 @@ function drawResearchData(array) {
 
   // Defining the table variable that will be used.
   let table = document.getElementById("dataTable");
+  table.classList.add("pure-table-horizontal");
 
   // Defining the header row.
   let header = table.createTHead();
