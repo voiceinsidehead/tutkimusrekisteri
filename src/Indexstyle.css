@@ -322,13 +322,8 @@ tr:nth-child(even) {
 
   clear: both;
   -webkit-box-sizing: border-box;
-  border-bottom: 2px solid #708090;
-  border-right: 2px solid #708090;
-  border-top: 2px solid #708090;
-  border-left: 2px solid #708090;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #dadada;
-  color: #708090;
 }

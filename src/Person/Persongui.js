@@ -158,6 +158,8 @@ function drawPersonData(array) {
     let saveBtn = document.createElement("button");
     saveBtn.id = "saveBtn";
     saveBtn.innerHTML = "Save";
+    saveBtn.classList.add("pure-button");
+    saveBtn.classList.add("pure-button-primary");
 
     saveBtn.addEventListener("click", function() {
       saveFile();
