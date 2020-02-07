@@ -7,7 +7,7 @@ const mdpdf = require("mdpdf");
 env.config();
 
 // Database refernce
-const Database = require(path.resolve(".", "models"));
+const Database = require("./models");
 
 let db = new Database();
 db.connect().then(() => db.sequelize.sync());
@@ -23,12 +23,13 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      webSecurity: false
     }
   });
 
   // and load the index.html of the app.
-  win.loadFile("index.html");
+  win.loadFile(path.join(__dirname, "index.html"));
 
   // Emitted when the window is closed.
   win.on("closed", () => {
