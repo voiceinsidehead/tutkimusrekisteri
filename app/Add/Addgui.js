@@ -17,7 +17,6 @@ function submit(form) {
 function addFile(form) {
   //opens native file explorer window
   let explorer = remote.dialog.showOpenDialog({ properties: ["openFile"] });
-  console.log(explorer);
   explorer.then(function(value) {
     if (value.canceled == false) {
       let filepath = value.filePaths[0];
@@ -52,6 +51,7 @@ function createForm() {
   submitButton.append("Add Research");
   submitButton.addEventListener("click", e => {
     submit(form);
+    submitButton.disabled = true;
   });
   controls.append(submitButton);
   fs.append(
@@ -63,6 +63,10 @@ function createForm() {
     controls
   );
   wrapper.append(header, form);
+  ipcRenderer.on("researchAdded", e => {
+    submitButton.disabled = false;
+    form.reset();
+  });
   return wrapper;
 }
 

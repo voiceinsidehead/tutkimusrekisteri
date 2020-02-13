@@ -11,7 +11,6 @@ const Database = require("./models");
 
 let db = new Database();
 db.connect().then(() => db.sequelize.sync());
-///FORCING DROPS THE DATABASE ! FOR TESTING PURPOSES ONLY ! MUST BE REMOVED !
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -97,17 +96,18 @@ ipcMain.on("addResearch", async (e, data) => {
   let ids = readCsv(data.file);
   delete data.file;
   let rs = db.Research.create(data);
-  Promise.all([rs, ids]).then(([research, data]) => {
-    console.log(`RESEARCH ID: ${research.researchID}`);
-    data.forEach(async value => {
+  const [research, persons] = await Promise.all([rs, ids]);
+  console.log(`RESEARCH ID: ${research.researchID}`);
+  await Promise.all(
+    persons.map(async value => {
       let [person, _] = await db.Person.findOrCreate({
         where: { identificationNumber: value.HETU }
       });
       research.addPerson(person, {
         through: { identificationHash: value.HASH }
       });
-    });
-  });
+    })
+  );
   e.reply("researchAdded");
 });
 
@@ -206,10 +206,10 @@ async function writeCsv(filepath, data) {
   });
   try {
     await csvWriter.writeRecords(data);
+    console.log("CSV Written");
   } catch (error) {
     console.log("CSV Not Written.");
   }
-  console.log("CSV Written");
 }
 
 async function readCsv(filepath) {

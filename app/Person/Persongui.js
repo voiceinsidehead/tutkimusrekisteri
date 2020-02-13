@@ -4,7 +4,7 @@ module.exports = { PersonContent, personQuery };
 /*
 let allResearches = [];
 
-ipcRenderer.on("allResearches", (e, data) => 
+ipcRenderer.on("allResearches", (e, data) =>
 {
   allResearches = data;
 });
@@ -188,7 +188,10 @@ async function saveFile() {
     buttonLabel: "Save As PDF",
     filters: [{ name: "PDF", extensions: ["pdf"] }]
   };
-  let dialogObject = await dialog.showSaveDialog(options);
-  let filepath = dialogObject.filePath;
-  ipcRenderer.send("saveFilePath", filepath);
+  dialog.showSaveDialog(options).then(value => {
+    if (value.canceled == false) {
+      let filepath = dialogObject.filePath;
+      ipcRenderer.send("saveFilePath", filepath);
+    } else console.log("Canceled!");
+  });
 }
