@@ -1,26 +1,18 @@
 const { ipcRenderer } = require("electron");
 
 let getSetup = () => {
-  let form;
-
-  form = document.getElementById("formi");
-  //form.addEventListener("submit", submit);
-
+  const form = document.getElementById("formi");
   ipcRenderer.send("getDBSetup");
 
-  let setup;
-
   ipcRenderer.on("dbSetup", (_, data) => {
-    setup = data;
-    Object.keys(setup).forEach(key => {
-      if (form.elements[key]) form.elements[key].value = setup[key];
+    Object.keys(data).forEach(key => {
+      if (form.elements[key]) form.elements[key].value = data[key];
     });
   });
 };
 
 //gets form data
-function submit(e) {
-  e.preventDefault();
+function submit(form) {
   //create object to store form data
   let data = {};
 
@@ -49,7 +41,7 @@ function createSetupForm() {
   let host = document.createElement("input");
   let user = document.createElement("input");
   let password = document.createElement("input");
-  let submit = document.createElement("button");
+  let submitBtn = document.createElement("button");
 
   let divDataBaseName = document.createElement("div");
   divDataBaseName.className = "pure-control-group";
@@ -81,12 +73,12 @@ function createSetupForm() {
   user.setAttribute("type", "text");
   password.setAttribute("type", "password");
 
-  submit.setAttribute("type", "button");
-  submit.append("Update Settings");
-  submit.addEventListener("click", e => {
+  submitBtn.setAttribute("type", "button");
+  submitBtn.append("Connect");
+  submitBtn.addEventListener("click", _ => {
     submit(form);
   });
-  submit.className = "pure-button pure-button-primary";
+  submitBtn.className = "pure-button pure-button-primary";
 
   divDataBaseName.appendChild(labelDataBaseName);
   divDataBaseName.appendChild(databaseName);
@@ -96,7 +88,7 @@ function createSetupForm() {
   divUser.appendChild(user);
   divPassword.appendChild(labelPassword);
   divPassword.appendChild(password);
-  divSubmit.appendChild(submit);
+  divSubmit.appendChild(submitBtn);
 
   fs.appendChild(divDataBaseName);
   fs.appendChild(divHost);

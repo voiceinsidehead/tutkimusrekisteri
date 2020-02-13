@@ -10,7 +10,7 @@ env.config();
 const Database = require("./models");
 
 let db = new Database();
-db.connect().then(() => db.sequelize.sync());
+db.connect();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -63,6 +63,9 @@ app.on("activate", () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+ipcMain.on("getDBStatus", e => {
+  e.reply("dbStatus", db.connected);
+});
 
 ipcMain.on("saveFilePath", (e, fpath) => {
   let options = {
@@ -88,92 +91,103 @@ ipcMain.on("saveFilePath", (e, fpath) => {
 
 // Connect database with new setup.
 ipcMain.on("dbSetupChannel", async (event, data) => {
-  await db.connect(data).then(() => db.sequelize.sync());
+  console.log("GOT CONNECTION SETTINGS");
+  await db.connect(data);
 });
 
 // Get filepath from rendered method
 ipcMain.on("addResearch", async (e, data) => {
-  let ids = readCsv(data.file);
-  delete data.file;
-  let rs = db.Research.create(data);
-  const [research, persons] = await Promise.all([rs, ids]);
-  console.log(`RESEARCH ID: ${research.researchID}`);
-  await Promise.all(
-    persons.map(async value => {
-      let [person, _] = await db.Person.findOrCreate({
-        where: { identificationNumber: value.HETU }
-      });
-      research.addPerson(person, {
-        through: { identificationHash: value.HASH }
-      });
-    })
-  );
-  e.reply("researchAdded");
+  if (db.connected) {
+    let ids = readCsv(data.file);
+    delete data.file;
+    let rs = db.Research.create(data);
+    const [research, persons] = await Promise.all([rs, ids]);
+    console.log(`RESEARCH ID: ${research.researchID}`);
+    await Promise.all(
+      persons.map(async value => {
+        let [person, _] = await db.Person.findOrCreate({
+          where: { identificationNumber: value.HETU }
+        });
+        research.addPerson(person, {
+          through: { identificationHash: value.HASH }
+        });
+      })
+    );
+    e.reply("researchAdded");
+  }
 });
 
 // Finds all the researches where ID belongs.
 ipcMain.on("idNumber", async (e, id) => {
-  let researches = await db.Research.findAll({
-    include: [
-      {
-        model: db.Person,
-        where: { identificationNumber: id }
-      }
-    ]
-  });
-  const data = researches.map(rs => {
-    return {
-      name: rs.name,
-      permission: rs.permission,
-      archiveID: rs.archiveID,
-      researchManager: rs.researchManager
-    };
-  });
-  createMarkdown(id, researches);
-  e.reply("researches", data);
+  if (db.connected) {
+    let researches = await db.Research.findAll({
+      include: [
+        {
+          model: db.Person,
+          where: { identificationNumber: id }
+        }
+      ]
+    });
+    const data = researches.map(rs => {
+      return {
+        name: rs.name,
+        permission: rs.permission,
+        archiveID: rs.archiveID,
+        researchManager: rs.researchManager
+      };
+    });
+    createMarkdown(id, researches);
+    e.reply("researches", data);
+  }
 });
 
 ipcMain.on("getAllResearches", async e => {
-  const researches = await db.Research.findAll();
-  data = researches.map(rs => {
-    return {
-      name: rs.name,
-      researchManager: rs.researchManager,
-      researchID: rs.researchID
-    };
-  });
-  e.reply("allResearches", data);
+  if (db.connected) {
+    const researches = await db.Research.findAll();
+    data = researches.map(rs => {
+      return {
+        name: rs.name,
+        researchManager: rs.researchManager,
+        researchID: rs.researchID
+      };
+    });
+    e.reply("allResearches", data);
+  }
 });
 
 ipcMain.on("exportCSV", async (e, filepath, rsID) => {
-  const rsPersons = await db.ResearchPerson.findAll({
-    where: {
-      researchID: rsID
-    }
-  });
-  const data = rsPersons.map(rsp => {
-    return {
-      idNumber: rsp.identificationNumber,
-      hash: rsp.identificationHash
-    };
-  });
+  if (db.connected) {
+    const rsPersons = await db.ResearchPerson.findAll({
+      where: {
+        researchID: rsID
+      }
+    });
+    const data = rsPersons.map(rsp => {
+      return {
+        idNumber: rsp.identificationNumber,
+        hash: rsp.identificationHash
+      };
+    });
 
-  writeCsv(filepath, data);
+    writeCsv(filepath, data);
+  }
 });
 
 // Finds all people belonging to research
 ipcMain.on("research", async (e, id) => {
-  let research = await db.Research.findByPk(id);
-  let people = await research.getPeople({
-    joinTableAttributes: ["identificationHash"]
-  });
-  const data = people.map(person => {
-    return {
-      identificationNumber: person.identificationNumber,
-      identificationHash: person.ResearchPerson.identificationHash
-    };
-  });
-  e.reply("researchPeople", data);
+  if (db.connected) {
+    let research = await db.Research.findByPk(id);
+    let people = await research.getPeople({
+      joinTableAttributes: ["identificationHash"]
+    });
+    const data = people.map(person => {
+      return {
+        identificationNumber: person.identificationNumber,
+        identificationHash: person.ResearchPerson.identificationHash
+      };
+    });
+    e.reply("researchPeople", data);
+  }
 });
 
 ipcMain.on("getDBSetup", e => {

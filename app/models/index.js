@@ -12,21 +12,32 @@ class Database {
   constructor() {
     this.connection = config;
     this.Sequelize = Sequelize;
-    this.sequelize;
+    this.status = false;
     this.connect.bind(this);
     this._iniatilizeModels.bind(this);
+  }
+
+  get connected() {
+    return this.status;
   }
 
   async connect(connectionDetails) {
     this.connection = { ...this.connection, ...connectionDetails };
     if (this.sequlize) await this.sequelize.close();
-    this.sequelize = await new Sequelize(
-      this.connection.database,
-      this.connection.username,
-      this.connection.password,
-      this.connection
-    );
-
+    try {
+      console.log("TRYING TO CONNECT");
+      this.sequelize = await new Sequelize(
+        this.connection.database,
+        this.connection.username,
+        this.connection.password,
+        this.connection
+      );
+      await this.sequelize.sync();
+      console.log("CONNECTED");
+      this.status = true;
+    } catch (error) {
+      this.status = false;
+    }
     this._iniatilizeModels();
   }
 

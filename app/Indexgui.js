@@ -1,9 +1,30 @@
+const { ipcRenderer } = require("electron");
+
 const { topBarContent, personQuery } = require("./View/Viewgui");
 const { createForm } = require("./Add/Addgui");
 const { createSetupForm, getSetup } = require("./Setup/setup");
 const { PersonContent } = require("./Person/Persongui");
 
+let dbStatus = null;
+
+setInterval(() => {
+  ipcRenderer.send("getDBStatus");
+}, 10000);
+
+ipcRenderer.on("dbStatus", (_, connected) => {
+  const status = connected ? "Connected" : "Disconnected";
+  if (connected != dbStatus) {
+    dbStatus = connected;
+    const footer = document.getElementById("footer");
+    footer.innerHTML = "";
+    const p = document.createElement("p");
+    p.append(status);
+    footer.append(p);
+  }
+});
+
 window.onload = function() {
+  ipcRenderer.send("getDBStatus");
   ModifyPage();
   document.getElementById("view").addEventListener("click", ViewPage);
   document.getElementById("add").addEventListener("click", ModifyPage);
