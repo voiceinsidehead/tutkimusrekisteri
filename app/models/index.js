@@ -25,15 +25,17 @@ class Database {
     this.connection = { ...this.connection, ...connectionDetails };
     if (this.sequlize) await this.sequelize.close();
     try {
-      console.log("TRYING TO CONNECT");
       this.sequelize = await new Sequelize(
         this.connection.database,
         this.connection.username,
         this.connection.password,
         this.connection
       );
+      this.sequelize.afterDisconnect(async () => {
+        this.status = false;
+      });
       await this.sequelize.sync();
-      console.log("CONNECTED");
+
       this.status = true;
     } catch (error) {
       this.status = false;
