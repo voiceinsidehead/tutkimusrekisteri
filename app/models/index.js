@@ -32,8 +32,11 @@ class Database {
         this.connection.password,
         this.connection
       );
+      this.sequelize.afterDisconnect(async () => {
+        this.status = false;
+      });
       await this.sequelize.sync();
-      console.log("CONNECTED");
+
       this.status = true;
     } catch (error) {
       this.status = false;
