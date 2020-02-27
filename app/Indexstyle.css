@@ -24,6 +24,13 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
+#footer {
+  position: absolute;
+  left: 12%;
+  bottom: 3%;
+  margin-bottom: 10px;
+}
+
 #dataTable {
   position: absolute;
   margin-left: auto;
